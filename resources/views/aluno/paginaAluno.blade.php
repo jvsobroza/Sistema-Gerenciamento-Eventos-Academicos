@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>página inicial</h1>
-    <p>Página pública para o usuário</p>
-    <a href="{{ route('login') }}">Entrar</a>
+    <h1>Página aluno</h1>
 </body>
 </html>
