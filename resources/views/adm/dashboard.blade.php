@@ -7,8 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>página inicial</h1>
-    <p>Página pública para o usuário</p>
-    <a href="{{ route('login') }}">Entrar</a>
+    <h1>Dashboard adm</h1>
 </body>
 </html>

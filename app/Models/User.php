@@ -12,6 +12,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $table = 'usuario';
     /**
      * The attributes that are mass assignable.
      *
@@ -39,10 +40,11 @@ class User extends Authenticatable
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'senha' => 'hashed',
-    ];
 
+    public function getAuthPassword()
+    {
+        return $this->senha;
+    }
     public function presencas()
     {
         return $this->hasMany(Presenca::class, 'id_usuario');
