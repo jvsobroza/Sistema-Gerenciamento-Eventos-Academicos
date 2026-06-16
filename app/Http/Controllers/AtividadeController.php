@@ -25,7 +25,8 @@ class AtividadeController extends Controller
      */
     public function create()
     {
-         return view ("create.index");
+        $evento = Evento::all();
+         return view ('create.index', compact('evento'));
 
     }
 
@@ -53,7 +54,7 @@ class AtividadeController extends Controller
      */
     public function edit($id,$id_evento)
     {
-        $evento = Evento::findOrFail($id_evento)
+        $evento = Evento::findOrFail($id_evento);
         $atividade = Atividade::findOrFail($id);
         return view('atividades.edit', compact('atividade','evento'));
     }
