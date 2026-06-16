@@ -13,7 +13,8 @@ class EventoController extends Controller
      */
     public function index()
     {
-        //
+        $eventos = Evento::all();
+        return view('eventos.index', compact('eventos'));
     }
 
     /**
@@ -21,7 +22,7 @@ class EventoController extends Controller
      */
     public function create()
     {
-        //
+        return view('eventos.create');
     }
 
     /**
@@ -29,7 +30,8 @@ class EventoController extends Controller
      */
     public function store(StoreEventoRequest $request)
     {
-        //
+        Evento::create($request->validated());
+        return redirect()->route('eventos.index');
     }
 
     /**
@@ -37,7 +39,7 @@ class EventoController extends Controller
      */
     public function show(Evento $evento)
     {
-        //
+        return view('eventos.show', compact('evento'));
     }
 
     /**
@@ -45,7 +47,8 @@ class EventoController extends Controller
      */
     public function edit(Evento $evento)
     {
-        //
+        $evento = Evento::findOrFail($evento->id);
+        return view('eventos.edit', compact('evento'));
     }
 
     /**
@@ -53,7 +56,8 @@ class EventoController extends Controller
      */
     public function update(UpdateEventoRequest $request, Evento $evento)
     {
-        //
+        Evento::where('id', $evento->id)->update($request->validated());
+        return redirect()->route('eventos.index');
     }
 
     /**
@@ -61,6 +65,8 @@ class EventoController extends Controller
      */
     public function destroy(Evento $evento)
     {
-        //
+        $evento = Evento::findOrFail($evento->id);
+        $evento->delete();
+        return redirect()->route('eventos.index');
     }
 }
