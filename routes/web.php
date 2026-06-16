@@ -7,6 +7,7 @@ use \App\Http\Controllers\EventoController;
 use \App\Http\Controllers\InscricaoController;
 use \App\Http\Controllers\PresencaController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,12 +53,12 @@ Route::get('/aluno', function () {
     return view('aluno.paginaAluno');
 })->middleware('auth')
     ->name('aluno.paginaAluno');
-
-Route::resource('alunos', AtividadeController::class);
-Route::resource('evento', EventoController::class);
-Route::resource('insricao', InscricaoController::class);
-Route::resource('presenca', PresencaController::class);
-Route::resource('certificado', CertificadoController::class);
+Route::resource('users', UserController::class)->middleware('auth');
+Route::resource('alunos', AtividadeController::class)->middleware('auth');
+Route::resource('evento', EventoController::class)->middleware('auth');
+Route::resource('insricao', InscricaoController::class)->middleware('auth');
+Route::resource('presenca', PresencaController::class)->middleware('auth');
+Route::resource('certificado', CertificadoController::class)->middleware('auth');
 
 
 
