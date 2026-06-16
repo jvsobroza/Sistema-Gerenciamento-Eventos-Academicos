@@ -24,6 +24,15 @@ Route::get('/login', function () {
 Route::post('/login', [AuthController::class, 'login'])
     ->name('login.submit');
 
+Route::get('/auth/google', [AuthController::class, 'redirectGoogle'])
+    ->name('google.login');
+
+Route::get('/auth/google/callback', [AuthController::class, 'callbackGoogle']);
+
+Route::post('/logout', [AuthController::class, 'logout'])
+    ->middleware('auth')
+    ->name('logout');
+
 Route::post('/logout', [AuthController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
