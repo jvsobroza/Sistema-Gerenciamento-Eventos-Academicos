@@ -1,72 +1,92 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Atividade;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Evento;
-use App\Http\Requests\StoreEventoRequest;
-use App\Http\Requests\UpdateEventoRequest;
+use Illuminate\Http\Request;
 
 class EventoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $eventos = Evento::all();
-        return view('eventos.index', compact('eventos'));
+        return view('evento.index', compact('eventos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return view('eventos.create');
+        return view('evento.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreEventoRequest $request)
+    public function store(Request $request)
     {
-        Evento::create($request->validated());
-        return redirect()->route('eventos.index');
+        $data = $request->validate([
+            'nome' => 'required',
+            'sigla' => 'required',
+            'local' => 'required',
+            'data_inicio' => 'required',
+            'data_fim' => 'required',
+            'descricao' => 'required',
+            'logo' => 'nullable|image'
+        ]);
+
+        if ($request->hasFile('logo')) {
+            $path = $request->file('logo')->store('logos', 'public');
+            $data['logo'] = $path;
+        }
+
+        Evento::create($data);
+
+        return redirect()->route('evento.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Evento $evento)
-    {
-        return view('eventos.show', compact('evento'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Evento $evento)
     {
-        $evento = Evento::findOrFail($evento->id);
-        return view('eventos.edit', compact('evento'));
+        return view('evento.edit', compact('evento'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateEventoRequest $request, Evento $evento)
+    public function update(Request $request, Evento $evento)
     {
-        Evento::where('id', $evento->id)->update($request->validated());
-        return redirect()->route('eventos.index');
+        $data = $request->validate([
+            'nome' => 'required',
+            'sigla' => 'required',
+            'local' => 'required',
+            'data_inicio' => 'required',
+            'data_fim' => 'required',
+            'descricao' => 'required',
+            'logo' => 'nullable|image'
+        ]);
+
+        if ($request->hasFile('logo')) {
+
+            if ($evento->logo && \Storage::disk('public')->exists($evento->logo)) {
+                \Storage::disk('public')->delete($evento->logo);
+            }
+
+            $path = $request->file('logo')->store('logos', 'public');
+            $data['logo'] = $path;
+        }
+
+        $evento->update($data);
+
+        return redirect()->route('evento.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Evento $evento)
     {
-        $evento = Evento::findOrFail($evento->id);
+        if (Atividade::where('id_evento', $evento->id)->exists()) {
+            return redirect()->route('evento.index')
+                ->withErrors(['error' => 'Não é possível excluir este evento pois existem atividades cadastradas.']);
+        }
+
+        if ($evento->logo && Storage::disk('public')->exists($evento->logo)) {
+            Storage::disk('public')->delete($evento->logo);
+        }
+
         $evento->delete();
-        return redirect()->route('eventos.index');
+
+        return redirect()->route('evento.index')
+            ->with('success', 'Evento excluído com sucesso!');
     }
 }

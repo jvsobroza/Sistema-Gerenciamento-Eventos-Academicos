@@ -5,22 +5,37 @@
 @section('content')
     <h1>Lista de Usuários</h1>
 
-    <a href="{{ route('users.create') }}">Criar usuário</a>
+    <a href="{{ route('users.create') }}">Cadastrar Administrador</a>
 
-    <ul>
-        @foreach($users as $user)
-            <li>
-                {{ $user->name }} - {{ $user->email }}
+    <table border="1" cellpadding="8" cellspacing="0" style="margin-top: 15px; width: 100%;">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
 
-                <a href="{{ route('users.show', $user->id) }}">Ver</a>
-                <a href="{{ route('users.edit', $user->id) }}">Editar</a>
+        <tbody>
+            @foreach($users as $user)
+                <tr>
+                    <td>{{ $user->nome }}</td>
+                    <td>{{ $user->email }}</td>
 
-                <form method="POST" action="{{ route('users.destroy', $user->id) }}">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit">Excluir</button>
-                </form>
-            </li>
-        @endforeach
-    </ul>
+                    <td>
+                        <a href="{{ route('users.edit', $user->id) }}">Editar</a>
+
+                        <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit" onclick="return confirm('Tem certeza que deseja excluir?')">
+                                Excluir
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 @endsection

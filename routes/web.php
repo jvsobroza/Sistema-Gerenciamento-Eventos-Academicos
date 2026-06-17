@@ -21,47 +21,46 @@ use App\Http\Controllers\RelatorioController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', [UserController::class, 'home'])
+    ->name('home');
 
 Route::get('/login', function () {
     return view('login');
 })->name('login');
 
-Route::post('/login', [AuthController::class, 'login'])
-    ->name('login.submit');
+Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 
-Route::get('/auth/google', [AuthController::class, 'redirectGoogle'])
-    ->name('google.login');
+Route::get('/auth/google', [AuthController::class, 'redirectGoogle'])->name('google.login');
 
 Route::get('/auth/google/callback', [AuthController::class, 'callbackGoogle']);
 
-Route::post('/logout', [AuthController::class, 'logout'])
-    ->middleware('auth')
-    ->name('logout');
-
-Route::post('/logout', [AuthController::class, 'logout'])
-    ->middleware('auth')
-    ->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
 Route::get('/dashboard', function () {
     return view('adm.dashboard');
-})->middleware('auth')
-    ->name('adm.dashboard');
+})->middleware('auth')->name('adm.dashboard');
 
-Route::get('/aluno', function () {
-    return view('aluno.paginaAluno');
-})->middleware('auth')
-    ->name('aluno.paginaAluno');
+Route::get('/pagina-aluno', [UserController::class, 'paginaAlunos'])->name('aluno.pagina')->middleware('auth');
 
 Route::resource('users', UserController::class)->middleware('auth');
-Route::resource('alunos', AtividadeController::class)->middleware('auth');
+
+Route::get('/alunos', [UserController::class, 'alunos'])->name('aluno.index')->middleware('auth');
+
 Route::resource('evento', EventoController::class)->middleware('auth');
+
 Route::resource('insricao', InscricaoController::class)->middleware('auth');
+
 Route::resource('presenca', PresencaController::class)->middleware('auth');
+
 Route::resource('certificado', CertificadoController::class)->middleware('auth');
-Route::resource('relatorio', RelatorioController::class);
+
+Route::resource('relatorio', RelatorioController::class)->middleware('auth');
+
+Route::resource('atividades', AtividadeController::class)->middleware('auth');
+
+Route::get('/minha-conta', [UserController::class, 'editarConta'])->name('aluno.edit')->middleware('auth');
+
+Route::put('/minha-conta', [UserController::class, 'atualizarConta'])->name('aluno.update')->middleware('auth');
 
 
 

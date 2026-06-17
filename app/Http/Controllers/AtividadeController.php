@@ -1,77 +1,96 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Atividade;
 use App\Models\Evento;
-
-
-use App\Http\Requests\StoreAtividadeRequest;
-use App\Http\Requests\UpdateAtividadeRequest;
+use Illuminate\Http\Request;
 
 class AtividadeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $atividade = Atividade::all();
+        $atividades = Atividade::with('evento')->get();
         return view('atividades.index', compact('atividades'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        $evento = Evento::all();
-         return view ('create.index', compact('evento'));
-
+        $eventos = Evento::all();
+        return view('atividades.create', compact('eventos'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreAtividadeRequest $request)
+    public function store(Request $request)
     {
-        Atividade::create($request->all());
-        return redirect()->route('atividades.index');
+        $data = $request->validate([
+            'id_evento' => 'required|exists:eventos,id',
+            'titulo' => 'required|string',
+            'descricao' => 'required|string',
+            'data' => 'required|date',
+            'hora_inicio' => 'required',
+            'hora_fim' => 'required',
+            'local' => 'required|string',
+            'vagas' => 'required|integer',
+            'responsaveis' => 'required|string',
+            'tipo' => 'required|string',
+            'resumo' => 'required|string',
+        ]);
 
+        $evento = Evento::findOrFail($data['id_evento']);
+
+        if (
+            $data['data'] < $evento->data_inicio ||
+            $data['data'] > $evento->data_fim
+        ) {
+            return back()->withErrors([
+                'data' => 'A data da atividade deve estar dentro do período do evento.'
+            ])->withInput();
+        }
+
+        Atividade::create($data);
+
+        return redirect()->route('atividades.index')
+            ->with('success', 'Atividade criada com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Atividade $atividades)
+
+    public function edit(Atividade $atividade)
     {
-        return view('atividades.show', compact('atividade'));
-
+        $eventos = Evento::all();
+        return view('atividades.edit', compact('atividade', 'eventos'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id,$id_evento)
+    public function update(Request $request, Atividade $atividade)
     {
-        $evento = Evento::findOrFail($id_evento);
-        $atividade = Atividade::findOrFail($id);
-        return view('atividades.edit', compact('atividade','evento'));
+        $data = $request->validate([
+            'id_evento' => 'required|exists:eventos,id',
+            'titulo' => 'required|string',
+            'descricao' => 'required|string',
+            'data' => 'required|date',
+            'hora_inicio' => 'required',
+            'hora_fim' => 'required',
+            'local' => 'required|string',
+            'vagas' => 'required|integer',
+            'responsaveis' => 'required|string',
+            'tipo' => 'required|string',
+            'resumo' => 'required|string',
+        ]);
+
+        $evento = Evento::findOrFail($data['id_evento']);
+
+        if (
+            $data['data'] < $evento->data_inicio ||
+            $data['data'] > $evento->data_fim
+        ) {
+            return back()->withErrors([
+                'data' => 'A data da atividade deve estar dentro do período do evento.'
+            ])->withInput();
+        }
+
+        $atividade->update($data);
+
+        return redirect()->route('atividades.index')
+            ->with('success', 'Atividade atualizada com sucesso!');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateAtividadeRequest $request, $id)
-    {
-        $atividade = Atividade::findOrFail($id);
-        $atividade->update($request->all());
-        return redirect()->route('atividades.index');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         Atividade::destroy($id);

@@ -13,31 +13,28 @@
         <h2>Sistema</h2>
 
         <ul>
-
-            <li>
-                <a href="{{ route('home') }}">Home</a>
-            </li>
-
             <li>
                 <a href="{{ route('adm.dashboard') }}">Dashboard Admin</a>
             </li>
 
             <li>
-                <a href="{{ route('users.index') }}">Usuários</a>
+                <a href="{{ route('users.index') }}">Administradores</a>
             </li>
 
             <li>
-                <a href="{{ route('aluno.paginaAluno') }}">Área do Aluno</a>
+                <a href="{{ route('aluno.pagina') }}">Área do Aluno</a>
             </li>
 
-            <hr>
-
             <li>
-                <a href="{{ route('alunos.index') }}"></a>
+                <a href="{{ route('aluno.index') }}">Alunos</a>
             </li>
 
             <li>
                 <a href="{{ route('evento.index') }}">Eventos</a>
+            </li>
+
+             <li>
+                <a href="{{ route('atividades.index') }}">Atividades</a>
             </li>
 
             <li>
@@ -51,9 +48,7 @@
             <li>
                 <a href="{{ route('certificado.index') }}">Certificados</a>
             </li>
-
-            <hr>
-
+            
             <li>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf

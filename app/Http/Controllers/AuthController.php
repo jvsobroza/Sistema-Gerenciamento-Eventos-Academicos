@@ -40,7 +40,7 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect()->route('home');
     }
 
     public function redirectGoogle()
@@ -79,6 +79,6 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->route('aluno.paginaAluno');
+        return redirect()->route('aluno.pagina');
     }
 }

@@ -3,92 +3,128 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\StorePresencaRequest;
-use App\Http\Requests\UpdatePresencaRequest;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use App\Models\Evento;
+
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+    public function home()
+    {
+        $eventos = Evento::with('atividades')
+            ->where('data_fim', '>=', date('Y-m-d'))
+            ->get();
+
+        return view('welcome', compact('eventos'));
+    }
+
     public function index()
     {
-        $users = User::all();
+        $users = User::where('tipo', 1)->get();
         return view('users.index', compact('users'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function alunos()
+    {
+        $users = User::where('tipo', 2)->get();
+        return view('aluno.index', compact('users'));
+    }
+
+    public function paginaAlunos()
+    {
+        $eventos = Evento::with('atividades')->get();
+
+        return view('aluno.paginaAluno', compact('eventos'));
+    }
+
     public function create()
     {
         return view('users.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StorePresencaRequest $request)
+    public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6',
+            'nome' => 'required|string|max:255',
+            'email' => 'required|email|unique:usuario,email',
+            'senha' => 'required|min:6|confirmed',
         ]);
 
         User::create([
-            'name' => $request->name,
+            'nome' => $request->nome,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'senha' => bcrypt($request->senha),
+            'tipo' => 1,
         ]);
 
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')->with('success', 'Administrador criado com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(User $user)
     {
-         return view('users.show', compact('user'));
+        return view('users.show', compact('user'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(User $user)
     {
         return view('users.edit', compact('user'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdatePresencaRequest $request, User $user)
+    public function update(Request $request, $id)
     {
-         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
+        $user = User::findOrFail($id);
+
+        $request->validate([
+            'nome' => 'required|string|max:255',
+            'email' => 'required|email|unique:usuario,email,' . $id,
+            'senha' => 'nullable|min:6|confirmed',
         ]);
 
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-        ]);
+        $user->nome = $request->nome;
+        $user->email = $request->email;
 
-        return redirect()->route('users.index');
+        if ($request->senha) {
+            $user->senha = bcrypt($request->senha);
+        }
+
+        $user->save();
+
+        return redirect()->route('users.index')->with('success', 'Administrador atualizado!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(User $user)
     {
-         $user->delete();
+        $tipo = $user->tipo;
 
-        return redirect()->route('users.index');
-        
+        $user->delete();
+
+        if ($tipo == 1) {
+            return redirect()->route('users.index');
+        }
+
+        return redirect()->route('aluno.index');
     }
+
+    public function editarConta()
+    {
+        $user = auth()->user();
+
+        return view('aluno.edit', compact('user'));
+    }
+
+    public function atualizarConta(Request $request)
+    {
+        $request->validate([
+            'nome' => 'required|string|max:255'
+        ]);
+
+        auth()->user()->update([
+            'nome' => $request->nome
+        ]);
+
+        return redirect()->route('aluno.pagina')
+            ->with('success', 'Nome atualizado com sucesso!');
+    }
+
 }

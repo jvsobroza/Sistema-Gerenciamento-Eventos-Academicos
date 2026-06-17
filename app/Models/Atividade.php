@@ -7,18 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Atividade extends Model
 {
-    protected $table = 'atividade';
+    protected $table = 'atividades';
     protected $fillable = [
         'id_evento',
-        'tipo',
         'titulo',
+        'descricao',
         'data',
         'hora_inicio',
         'hora_fim',
         'local',
         'vagas',
         'responsaveis',
-        'resumo'
+        'tipo',
+        'resumo',
     ];
 
     public function evento()
