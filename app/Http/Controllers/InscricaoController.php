@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inscricao;
-use App\Http\Requests\StoreInscricaoRequest;
 use App\Http\Requests\UpdateInscricaoRequest;
 use App\Models\Atividade;
+use Illuminate\Http\Request;
+use App\Models\Evento;
 
 class InscricaoController extends Controller
 {
@@ -14,7 +15,13 @@ class InscricaoController extends Controller
      */
     public function index()
     {
-        //
+        $eventos = Evento::with([
+            'atividades.inscricoes.usuario'
+        ])
+            ->orderBy('data_inicio', 'desc')
+            ->get();
+
+        return view('inscricao.index', compact('eventos'));
     }
 
     /**
@@ -28,7 +35,7 @@ class InscricaoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreInscricaoRequest $request)
+    public function store(Request $request)
     {
         $atividade = Atividade::findOrFail($request->id_atividade);
 
@@ -41,13 +48,12 @@ class InscricaoController extends Controller
             ->exists();
 
         if ($jaInscrito) {
-            return back()->with('error', 'Você já está inscrito nessa atividade.');
+            return back()->with('error', 'Você já está inscrito.');
         }
 
         Inscricao::create([
             'id_usuario' => auth()->id(),
             'id_atividade' => $atividade->id,
-            'data_inscricao' => now()->toDateString(),
         ]);
 
         $atividade->decrement('vagas');
@@ -82,9 +88,17 @@ class InscricaoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Inscricao $inscricao)
+    public function destroy($id)
     {
-        $inscricao->atividade->increment('vagas');
+        $inscricao = Inscricao::findOrFail($id);
+
+        if ($inscricao->id_usuario != auth()->id()) {
+            abort(403);
+        }
+
+        $atividade = Atividade::findOrFail($inscricao->id_atividade);
+
+        $atividade->increment('vagas');
 
         $inscricao->delete();
 

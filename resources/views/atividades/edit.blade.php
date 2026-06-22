@@ -5,8 +5,6 @@
 @section('content')
     <h1>Editar Atividade</h1>
 
-    <a href="{{ route('atividades.index') }}">← Voltar</a>
-
     <form method="POST" action="{{ route('atividades.update', $atividade->id) }}">
         @csrf
         @method('PUT')
@@ -15,8 +13,7 @@
             <label>Evento</label>
             <select name="id_evento" required>
                 @foreach($eventos as $evento)
-                    <option value="{{ $evento->id }}"
-                        {{ $atividade->id_evento == $evento->id ? 'selected' : '' }}>
+                    <option value="{{ $evento->id }}" {{ $atividade->id_evento == $evento->id ? 'selected' : '' }}>
                         {{ $evento->nome }}
                     </option>
                 @endforeach
@@ -65,7 +62,28 @@
 
         <div>
             <label>Tipo</label>
-            <input type="text" name="tipo" value="{{ $atividade->tipo }}" required>
+
+            <select name="tipo" id="tipo" required>
+                <option value="PALESTRA" {{ $atividade->tipo == 'PALESTRA' ? 'selected' : '' }}>
+                    Palestra
+                </option>
+
+                <option value="JOGOS" {{ $atividade->tipo == 'JOGOS' ? 'selected' : '' }}>
+                    Jogos
+                </option>
+
+                <option value="OFICINA" {{ $atividade->tipo == 'OFICINA' ? 'selected' : '' }}>
+                    Oficina
+                </option>
+
+                <option value="RODA_DE_REGRESSOS" {{ $atividade->tipo == 'RODA_DE_REGRESSOS' ? 'selected' : '' }}>
+                    Roda de Regressos
+                </option>
+
+                <option value="MINI_CURSO" {{ $atividade->tipo == 'MINI_CURSO' ? 'selected' : '' }}>
+                    Mini Curso
+                </option>
+            </select>
         </div>
 
         <div>
@@ -74,5 +92,7 @@
         </div>
 
         <button type="submit">Atualizar Atividade</button>
+
     </form>
+    <a href="{{ route('atividades.index') }}">Voltar</a>
 @endsection

@@ -33,7 +33,10 @@ class UserController extends Controller
 
     public function paginaAlunos()
     {
-        $eventos = Evento::with('atividades')->get();
+        $eventos = Evento::with('atividades')
+            ->whereDate('data_fim', '>=', today())
+            ->orderBy('data_inicio')
+            ->get();
 
         return view('aluno.paginaAluno', compact('eventos'));
     }

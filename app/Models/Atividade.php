@@ -26,4 +26,9 @@ class Atividade extends Model
     {
         return $this->belongsTo(Evento::class, 'id_evento');
     }
+
+    public function inscricoes()
+    {
+        return $this->hasMany(Inscricao::class, 'id_atividade');
+    }
 }

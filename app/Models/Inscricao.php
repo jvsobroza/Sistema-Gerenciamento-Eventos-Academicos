@@ -14,13 +14,13 @@ class Inscricao extends Model
         'data_inscricao'
     ];
 
-    public function usuario()
-    {
-        return $this->belongsTo(User::class, 'id_usuario');
-    }
-
     public function atividade()
     {
         return $this->belongsTo(Atividade::class, 'id_atividade');
+    }
+
+    public function usuario()
+    {
+        return $this->belongsTo(User::class, 'id_usuario');
     }
 }

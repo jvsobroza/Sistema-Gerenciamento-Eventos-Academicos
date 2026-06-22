@@ -94,12 +94,28 @@
                             <td>{{ $atividade->vagas }}</td>
 
                             <td>{{ $atividade->tipo }}</td>
+                            @php
+    $inscricao = $atividade->inscricoes
+        ->where('id_usuario', auth()->id())
+        ->first();
+@endphp
 
                             @if(auth()->user()->tipo == 2)
                                 <td>
-                                    @if($atividade->vagas > 0)
+                                    @if($inscricao)
 
-                                        <form action="{{ route('insricao.store') }}" method="POST">
+                                        <form action="{{ route('inscricao.destroy', $inscricao->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="submit">
+                                                Desinscrever-se
+                                            </button>
+                                        </form>
+
+                                    @elseif($atividade->vagas > 0)
+
+                                        <form action="{{ route('inscricao.store') }}" method="POST">
                                             @csrf
 
                                             <input type="hidden" name="id_atividade" value="{{ $atividade->id }}">

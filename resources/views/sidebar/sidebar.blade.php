@@ -38,7 +38,7 @@
             </li>
 
             <li>
-                <a href="{{ route('insricao.index') }}">Inscrições</a>
+                <a href="{{ route('inscricao.index') }}">Inscrições</a>
             </li>
 
             <li>

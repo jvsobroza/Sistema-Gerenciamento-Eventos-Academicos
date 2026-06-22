@@ -4,6 +4,7 @@
 
 @section('content')
     <h1>Criar Administrador</h1>
+    
 
     <form method="POST" action="{{ route('users.store') }}">
         @csrf

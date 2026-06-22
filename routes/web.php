@@ -48,7 +48,7 @@ Route::get('/alunos', [UserController::class, 'alunos'])->name('aluno.index')->m
 
 Route::resource('evento', EventoController::class)->middleware('auth');
 
-Route::resource('insricao', InscricaoController::class)->middleware('auth');
+Route::resource('inscricao', InscricaoController::class)->middleware('auth');
 
 Route::resource('presenca', PresencaController::class)->middleware('auth');
 

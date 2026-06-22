@@ -63,7 +63,30 @@
 
         <div>
             <label>Tipo</label>
-            <input type="text" name="tipo" required>
+
+            <select name="tipo" id="tipo" required>
+                <option value="">Selecione o tipo</option>
+
+                <option value="PALESTRA" {{ old('tipo') == 'PALESTRA' ? 'selected' : '' }}>
+                    Palestra
+                </option>
+
+                <option value="JOGOS" {{ old('tipo') == 'JOGOS' ? 'selected' : '' }}>
+                    Jogos
+                </option>
+
+                <option value="OFICINA" {{ old('tipo') == 'OFICINA' ? 'selected' : '' }}>
+                    Oficina
+                </option>
+
+                <option value="RODA_DE_REGRESSOS" {{ old('tipo') == 'RODA_DE_REGRESSOS' ? 'selected' : '' }}>
+                    Roda de Regressos
+                </option>
+
+                <option value="MINI_CURSO" {{ old('tipo') == 'MINI_CURSO' ? 'selected' : '' }}>
+                    Mini Curso
+                </option>
+            </select>
         </div>
 
         <div>
