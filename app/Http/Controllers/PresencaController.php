@@ -3,62 +3,65 @@
 namespace App\Http\Controllers;
 
 use App\Models\Presenca;
-use App\Http\Requests\StorePresencaRequest;
-use App\Http\Requests\UpdatePresencaRequest;
+use Illuminate\Http\Request;
+use App\Models\Evento;
+use App\Models\Atividade;
 
 class PresencaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $eventos = Evento::with('atividades')
+            ->orderBy('data_inicio', 'desc')
+            ->get();
+
+        return view('presenca.index', compact('eventos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StorePresencaRequest $request)
+    public function store(Request $request)
     {
-        //
+        Presenca::updateOrCreate(
+            [
+                'id_usuario' => $request->id_usuario,
+                'id_atividade' => $request->id_atividade,
+            ],
+            [
+                'presente' => 1
+            ]
+        );
+
+        return back();
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Presenca $presenca)
+    public function show($id)
     {
-        //
+        $atividade = Atividade::with(['inscricoes.usuario'])->findOrFail($id);
+
+        $presencas = Presenca::where('id_atividade', $id)
+            ->get()
+            ->keyBy('id_usuario');
+
+        return view('presenca.show', compact('atividade', 'presencas'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Presenca $presenca)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdatePresencaRequest $request, Presenca $presenca)
+    public function update($id)
     {
-        //
+        $presenca = Presenca::findOrFail($id);
+        $presenca->delete();
+
+        return back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(Presenca $presenca)
     {
         //

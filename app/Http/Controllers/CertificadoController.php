@@ -1,108 +1,63 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Certificado;
-use App\Http\Requests\StoreCertificadoRequest;
-use App\Http\Requests\UpdateCertificadoRequest;
-use App\Models\Atividade;
+use App\Models\Evento;
 use App\Models\Presenca;
+use App\Models\User;
 
 class CertificadoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $eventos = Evento::orderBy('data_inicio', 'desc')->get();
+
+        return view('certificado.index', compact('eventos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function evento($evento_id)
     {
-        return view('certificados.create');
-    }
+        $evento = Evento::with(['atividades.presencas.usuario'])
+            ->findOrFail($evento_id);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreCertificadoRequest $request)
-    {
-        $dados = $request->except('arquivo_salvo');
-        $codigo = $this->codigo();
-        $dados['codigo'] = $codigo;
-        $dados['usuario_id'] = auth()->user()->id;
-        $dados['evento_id'] = $request->evento_id;
-        $dados['data_emissao'] = now();
-        $dados['carga_horaria'] = $this->cargaHorario($request->evento_id, $request->usuario_id);
-        if ($request->hasFile('arquivo_salvo')) {
-            $pdf = $request->file('arquivo_salvo')->getClientOriginalName();
-            $destino = base_path('public/pdfs');
-            $request->file('arquivo_salvo')->move($destino, $pdf);
-            $dados['arquivo_salvo'] = $pdf;
-        }
-        Certificado::create($dados);
-        return redirect()->route('certificados.index');
-    }
+        $usuarios = [];
 
-    private function cargaHorario($evento_id, $usuario_id)
-    {
-        $id_atividade = Atividade::where('evento_id', $evento_id)->get();
-        $presencas = Presenca::whereIn('atividade_id', $id_atividade)
-            ->where('usuario_id', $usuario_id)
-            ->get();
-        $cargaHoraria = 0;
-        foreach ($presencas as $presenca) {
-            $atividade = Atividade::find($presenca->atividade_id);
-            if ($atividade) {
-                $cargaHoraria += $atividade->hora_incio->diffInHours($atividade->hora_fim);
+        foreach ($evento->atividades as $atividade) {
+            foreach ($atividade->presencas as $presenca) {
+                $usuarios[$presenca->usuario->id] = $presenca->usuario;
             }
         }
-        return $cargaHoraria;
+
+        return view('certificado.evento', compact('evento', 'usuarios'));
     }
 
-    private function codigo()
+    public function pdf($evento_id, $usuario_id)
     {
-        return strtoupper(substr(bin2hex(random_bytes(4)), 1));
-    }
+        $evento = Evento::with('atividades')->findOrFail($evento_id);
+        $usuario = User::findOrFail($usuario_id);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Certificado $certificado)
-    {
-        $certificado = Certificado::findOrFail($certificado->id);
-        return view('certificados.show', compact('certificado'));
-    }
+        $totalHoras = 0;
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Certificado $certificado)
-    {
-        $certificado = Certificado::findOrFail($certificado->id);
-        return view('certificados.edit', compact('certificado'));
-    }
+        foreach ($evento->atividades as $atividade) {
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateCertificadoRequest $request, Certificado $certificado)
-    {
-        Certificado::where('id', $certificado->id)->update($request->validated());
-        return redirect()->route('certificados.index');
-    }
+            $presente = Presenca::where('id_atividade', $atividade->id)
+                ->where('id_usuario', $usuario_id)
+                ->exists();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Certificado $certificado)
-    {
-        $certificado = Certificado::findOrFail($certificado->id);
-        $certificado->delete();
-        return redirect()->route('certificados.index');
+            if ($presente) {
+                $inicio = \Carbon\Carbon::parse($atividade->hora_inicio);
+                $fim = \Carbon\Carbon::parse($atividade->hora_fim);
+
+                $totalHoras += $inicio->diffInHours($fim);
+            }
+        }
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('certificado.pdf', [
+            'evento' => $evento,
+            'usuario' => $usuario,
+            'totalHoras' => $totalHoras,
+            'dataEmissao' => now()->format('d/m/Y')
+        ]);
+
+        return $pdf->download('certificado.pdf');
     }
 }

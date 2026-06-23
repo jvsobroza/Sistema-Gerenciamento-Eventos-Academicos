@@ -10,9 +10,7 @@ use App\Models\Evento;
 
 class InscricaoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $eventos = Evento::with([
@@ -24,17 +22,11 @@ class InscricaoController extends Controller
         return view('inscricao.index', compact('eventos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $atividade = Atividade::findOrFail($request->id_atividade);
@@ -61,33 +53,22 @@ class InscricaoController extends Controller
         return back()->with('success', 'Inscrição realizada com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(Inscricao $inscricao)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Inscricao $inscricao)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateInscricaoRequest $request, Inscricao $inscricao)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         $inscricao = Inscricao::findOrFail($id);

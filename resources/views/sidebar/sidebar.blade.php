@@ -46,7 +46,7 @@
             </li>
 
             <li>
-                <a href="{{ route('certificado.index') }}">Certificados</a>
+                <a href="{{ route('certificados.index') }}">Certificados</a>
             </li>
             
             <li>

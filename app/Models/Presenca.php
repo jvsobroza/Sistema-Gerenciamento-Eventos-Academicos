@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Presenca extends Model
 {
-    protected $table = 'presenca';
+    protected $table = 'presencas';
+
     protected $fillable = [
         'id_usuario',
         'id_atividade',
-        'confirmado'
+        'presente'
     ];
 
     public function usuario()

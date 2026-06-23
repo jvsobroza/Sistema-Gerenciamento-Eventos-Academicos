@@ -52,8 +52,6 @@ Route::resource('inscricao', InscricaoController::class)->middleware('auth');
 
 Route::resource('presenca', PresencaController::class)->middleware('auth');
 
-Route::resource('certificado', CertificadoController::class)->middleware('auth');
-
 Route::resource('relatorio', RelatorioController::class)->middleware('auth');
 
 Route::resource('atividades', AtividadeController::class)->middleware('auth');
@@ -62,5 +60,10 @@ Route::get('/minha-conta', [UserController::class, 'editarConta'])->name('aluno.
 
 Route::put('/minha-conta', [UserController::class, 'atualizarConta'])->name('aluno.update')->middleware('auth');
 
+Route::get('/certificados', [CertificadoController::class, 'index'])->name('certificados.index');
+
+Route::get('/certificados/{evento}', [CertificadoController::class, 'evento'])->name('certificados.evento');
+
+Route::get('/certificados/{evento}/{usuario}', [CertificadoController::class, 'pdf'])->name('certificados.pdf');
 
 
