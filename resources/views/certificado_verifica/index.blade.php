@@ -11,12 +11,12 @@
 <body>
     <h1>Verificar certificado:</h1>
 
-    <form method="POST" action="{{ route('verifica_certificado') }}">
+    <form method="POST" action="{{ route('certificado.verifica') }}">
         @csrf
 
         <div>
             <label>Código do certificado</label>
-            <input type="text" name="codigo_verificacao">
+            <input type="text" name="codigo_verificacao" required>
         </div>
 
         <button type="submit">Verificar Certificado</button>
