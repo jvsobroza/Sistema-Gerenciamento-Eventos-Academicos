@@ -48,6 +48,12 @@
             <li>
                 <a href="{{ route('certificados.index') }}">Certificados</a>
             </li>
+            <li>
+                <a href="{{ route('checkin.index') }}">Check-in QR Code</a>
+            </li>
+            <li>
+                <a href="{{ route('relatorio.index') }}">Relatórios</a>
+            </li>
             
             <li>
                 <form method="POST" action="{{ route('logout') }}">

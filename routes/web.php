@@ -70,3 +70,16 @@ Route::get('/certificado_verifica', [CertificadoController::class, 'index2'])->n
 Route::get('/verifica_certificado', [CertificadoController::class, 'verifica'])->name('certificado.verifica');
 
 
+// Rotas QR Code
+Route::post('/qrcode/generate/{atividade}', [App\Http\Controllers\QRCodeController::class, 'generate'])->name('qrcode.generate');
+Route::get('/qrcode/show/{atividade}', [App\Http\Controllers\QRCodeController::class, 'show'])->name('qrcode.show');
+
+// Rotas Check-in
+Route::get('/checkin', [App\Http\Controllers\CheckinController::class, 'index'])->name('checkin.index');
+Route::get('/checkin/{atividade}', [App\Http\Controllers\CheckinController::class, 'show'])->name('checkin.show');
+Route::post('/checkin/store', [App\Http\Controllers\CheckinController::class, 'store'])->name('checkin.store');
+Route::get('/checkin/validate', [App\Http\Controllers\CheckinController::class, 'validate'])->name('checkin.validate');
+
+// Rotas Relatórios
+Route::get('/relatorios', [App\Http\Controllers\RelatorioController::class, 'index'])->name('relatorio.index');
+Route::get('/relatorios/{id}', [App\Http\Controllers\RelatorioController::class, 'show'])->name('relatorio.show');

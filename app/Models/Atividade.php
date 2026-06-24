@@ -24,6 +24,8 @@ class Atividade extends Model
         'responsaveis',
         'tipo',
         'resumo',
+        'qr_code',
+        'qr_code_hash',
     ];
 
     public function evento()
