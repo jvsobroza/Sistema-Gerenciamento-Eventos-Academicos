@@ -69,7 +69,6 @@ Route::get('/certificados/{evento}/{usuario}', [CertificadoController::class, 'p
 Route::get('/certificado_verifica', [CertificadoController::class, 'index2'])->name('certificado_verifica');
 Route::get('/verifica_certificado', [CertificadoController::class, 'verifica'])->name('certificado.verifica');
 
-
 // Rotas QR Code
 Route::post('/qrcode/generate/{atividade}', [App\Http\Controllers\QRCodeController::class, 'generate'])->name('qrcode.generate');
 Route::get('/qrcode/show/{atividade}', [App\Http\Controllers\QRCodeController::class, 'show'])->name('qrcode.show');
