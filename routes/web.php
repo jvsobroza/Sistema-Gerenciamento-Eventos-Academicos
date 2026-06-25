@@ -69,3 +69,6 @@ Route::get('/certificados/{evento}/{usuario}', [CertificadoController::class, 'p
 Route::get('/certificado_verifica', [CertificadoController::class, 'index2'])->name('certificado_verifica');
 Route::post('/verifica_certificado',[CertificadoController::class, 'verifica'])->name('certificado.verifica');
 
+Route::get('/presenca/{atividade}/pdf', [PresencaController::class, 'pdf'])
+    ->name('presenca.pdf');
+

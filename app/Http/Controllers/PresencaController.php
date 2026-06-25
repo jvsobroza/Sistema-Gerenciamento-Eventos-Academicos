@@ -6,6 +6,7 @@ use App\Models\Presenca;
 use Illuminate\Http\Request;
 use App\Models\Evento;
 use App\Models\Atividade;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PresencaController extends Controller
 {
@@ -65,5 +66,18 @@ class PresencaController extends Controller
     public function destroy(Presenca $presenca)
     {
         //
+    }
+
+
+    public function pdf($atividade_id)
+    {
+        $atividade = Atividade::with('presencas.usuario')
+            ->findOrFail($atividade_id);
+
+        $pdf = Pdf::loadView('presenca.pdf', [
+            'atividade' => $atividade
+        ]);
+
+        return $pdf->download('lista_presenca.pdf');
     }
 }
