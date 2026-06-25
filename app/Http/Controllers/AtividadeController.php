@@ -45,6 +45,12 @@ class AtividadeController extends Controller
             ])->withInput();
         }
 
+        if ($data['hora_fim'] <= $data['hora_inicio']) {
+            return back()->withErrors([
+                'hora_fim' => 'A hora final não pode ser menor ou igual à hora inicial.'
+            ])->withInput();
+        }
+
         Atividade::create($data);
 
         return redirect()->route('atividades.index')
@@ -85,15 +91,30 @@ class AtividadeController extends Controller
             ])->withInput();
         }
 
+        if ($data['hora_fim'] <= $data['hora_inicio']) {
+            return back()->withErrors([
+                'hora_fim' => 'A hora final não pode ser menor ou igual à hora inicial.'
+            ])->withInput();
+        }
+
         $atividade->update($data);
 
         return redirect()->route('atividades.index')
             ->with('success', 'Atividade atualizada com sucesso!');
     }
 
-    public function destroy($id)
-    {
-        Atividade::destroy($id);
-        return redirect()->route('atividades.index');
+   public function destroy($id)
+{
+    $atividade = Atividade::with('inscricoes')->findOrFail($id);
+
+    if ($atividade->inscricoes->count() > 0) {
+        return redirect()->route('atividades.index')
+            ->with('error', 'Não é possível excluir: há usuários inscritos nesta atividade.');
     }
+
+    $atividade->delete();
+
+    return redirect()->route('atividades.index')
+        ->with('success', 'Atividade excluída com sucesso!');
+}
 }

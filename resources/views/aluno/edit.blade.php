@@ -9,6 +9,10 @@
 <body>
 
     <h1>Editar Conta</h1>
+    
+    @if(session('success'))
+        <p>{{ session('success') }}</p>
+    @endif
 
     <form action="{{ route('aluno.update') }}" method="POST">
         @csrf

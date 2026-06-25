@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Evento;
-
+use App\Models\Certificado;
 
 class UserController extends Controller
 {
@@ -52,6 +52,14 @@ class UserController extends Controller
             'nome' => 'required|string|max:255',
             'email' => 'required|email|unique:usuario,email',
             'senha' => 'required|min:6|confirmed',
+        ], [
+            'nome.required' => 'O nome é obrigatório.',
+            'email.required' => 'O email é obrigatório.',
+            'email.email' => 'Digite um email válido.',
+            'email.unique' => 'Este email já está cadastrado.',
+            'senha.required' => 'A senha é obrigatória.',
+            'senha.min' => 'A senha deve ter pelo menos 6 caracteres.',
+            'senha.confirmed' => 'As senhas não conferem.',
         ]);
 
         User::create([
@@ -82,6 +90,13 @@ class UserController extends Controller
             'nome' => 'required|string|max:255',
             'email' => 'required|email|unique:usuario,email,' . $id,
             'senha' => 'nullable|min:6|confirmed',
+        ], [
+            'nome.required' => 'O nome é obrigatório.',
+            'email.required' => 'O email é obrigatório.',
+            'email.email' => 'Digite um email válido.',
+            'email.unique' => 'Este email já está cadastrado.',
+            'senha.min' => 'A senha deve ter pelo menos 6 caracteres.',
+            'senha.confirmed' => 'As senhas não conferem.',
         ]);
 
         $user->nome = $request->nome;
@@ -96,17 +111,24 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'Administrador atualizado!');
     }
 
+
+
     public function destroy(User $user)
     {
-        $tipo = $user->tipo;
+        if ($user->tipo == 2 && Certificado::where('id_usuario', $user->id)->exists()) {
+            return redirect()->route('aluno.index')
+                ->with('error', 'Não é possível excluir este aluno pois ele possui certificados.');
+        }
 
         $user->delete();
 
-        if ($tipo == 1) {
-            return redirect()->route('users.index');
+        if ($user->tipo == 1) {
+            return redirect()->route('users.index')
+                ->with('success', 'Usuário excluído com sucesso!');
         }
 
-        return redirect()->route('aluno.index');
+        return redirect()->route('aluno.index')
+            ->with('success', 'Usuário excluído com sucesso!');
     }
 
     public function editarConta()

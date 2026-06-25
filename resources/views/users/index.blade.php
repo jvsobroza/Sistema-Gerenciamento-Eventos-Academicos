@@ -5,6 +5,17 @@
 @section('content')
     <h1>Lista de Usuários</h1>
 
+    @if(session('success'))
+        <p>{{ session('success') }}</p>
+    @endif
+
+    @if(session('error'))
+        <p>
+            {{ session('error') }}
+        </p>
+    @endif
+
+
     <a href="{{ route('users.create') }}">Cadastrar Administrador</a>
 
     <table border="1" cellpadding="8" cellspacing="0" style="margin-top: 15px; width: 100%;">

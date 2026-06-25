@@ -31,6 +31,12 @@ class EventoController extends Controller
             'logo' => 'nullable|image'
         ]);
 
+        if ($data['data_fim'] < $data['data_inicio']) {
+            return back()->withErrors([
+                'data' => 'A data final não pode ser menor que a data inicial.'
+            ])->withInput();
+        }
+
         if ($request->hasFile('logo')) {
             $path = $request->file('logo')->store('logos', 'public');
             $data['logo'] = $path;
@@ -38,7 +44,7 @@ class EventoController extends Controller
 
         Evento::create($data);
 
-        return redirect()->route('evento.index');
+        return redirect()->route('evento.index')->with('success', 'Evento cadastrado com sucesso!');
     }
 
     public function edit(Evento $evento)
@@ -58,6 +64,12 @@ class EventoController extends Controller
             'logo' => 'nullable|image'
         ]);
 
+        if ($data['data_fim'] < $data['data_inicio']) {
+            return back()->withErrors([
+                'data' => 'A data final não pode ser menor que a data inicial.'
+            ])->withInput();
+        }
+
         if ($request->hasFile('logo')) {
 
             if ($evento->logo && \Storage::disk('public')->exists($evento->logo)) {
@@ -70,14 +82,14 @@ class EventoController extends Controller
 
         $evento->update($data);
 
-        return redirect()->route('evento.index');
+        return redirect()->route('evento.index')->with('success', 'Evento atualizado com sucesso!');
     }
 
     public function destroy(Evento $evento)
     {
         if (Atividade::where('id_evento', $evento->id)->exists()) {
             return redirect()->route('evento.index')
-                ->withErrors(['error' => 'Não é possível excluir este evento pois existem atividades cadastradas.']);
+                ->with('error', 'Não é possível excluir este evento pois existem atividades cadastradas.');
         }
 
         if ($evento->logo && Storage::disk('public')->exists($evento->logo)) {

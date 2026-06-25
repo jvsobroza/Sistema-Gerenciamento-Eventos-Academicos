@@ -59,8 +59,9 @@ class AuthController extends Controller
             ->first();
 
         if ($admin) {
-            return redirect('/login')
-                ->with('erro', 'Administradores devem usar email e senha.');
+            return redirect('/login')->withErrors([
+                'email' => 'Administradores devem usar email e senha.'
+            ]);
         }
 
         $usuario = User::updateOrCreate(

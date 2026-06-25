@@ -4,7 +4,13 @@
 
 @section('content')
     <h1>Editar Evento</h1>
-
+    @if($errors->any())
+        <p>
+            @foreach($errors->all() as $error)
+                {{ $error }}
+            @endforeach
+        </p>
+    @endif
     <form method="POST" action="{{ route('evento.update', $evento->id) }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')

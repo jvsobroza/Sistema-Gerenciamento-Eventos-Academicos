@@ -4,6 +4,13 @@
 
 @section('content')
     <h1>Criar Evento</h1>
+    @if($errors->any())
+        <p>
+            @foreach($errors->all() as $error)
+                {{ $error }}
+            @endforeach
+        </p>
+    @endif
     <form method="POST" action="{{ route('evento.store') }}" enctype="multipart/form-data">
         @csrf
 

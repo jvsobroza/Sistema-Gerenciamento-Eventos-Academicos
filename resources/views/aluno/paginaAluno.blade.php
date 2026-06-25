@@ -10,7 +10,9 @@
 <body>
 
     <h1>Área do Aluno</h1>
-
+    @if(session('success'))
+        <p>{{ session('success') }}</p>
+    @endif
     <div style="margin-bottom:20px;">
 
         @if(auth()->user()->tipo == 1)
@@ -50,8 +52,7 @@
                     Certificado disponível
                 </p>
 
-                <a href="{{ asset('storage/' . $certificado->arquivo_salvo) }}"
-                   target="_blank">
+                <a href="{{ asset('storage/' . $certificado->arquivo_salvo) }}" target="_blank">
                     Ver Certificado
                 </a>
 
@@ -148,8 +149,7 @@
 
                                         @else
 
-                                            <form action="{{ route('inscricao.destroy', $inscricao->id) }}"
-                                                  method="POST">
+                                            <form action="{{ route('inscricao.destroy', $inscricao->id) }}" method="POST">
 
                                                 @csrf
                                                 @method('DELETE')
@@ -164,14 +164,11 @@
 
                                     @elseif($atividade->vagas > 0)
 
-                                        <form action="{{ route('inscricao.store') }}"
-                                              method="POST">
+                                        <form action="{{ route('inscricao.store') }}" method="POST">
 
                                             @csrf
 
-                                            <input type="hidden"
-                                                   name="id_atividade"
-                                                   value="{{ $atividade->id }}">
+                                            <input type="hidden" name="id_atividade" value="{{ $atividade->id }}">
 
                                             <button type="submit">
                                                 Inscrever-se

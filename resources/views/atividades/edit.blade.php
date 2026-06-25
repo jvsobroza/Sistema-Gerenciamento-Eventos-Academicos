@@ -5,6 +5,14 @@
 @section('content')
     <h1>Editar Atividade</h1>
 
+    @if($errors->any())
+        <p>
+            @foreach($errors->all() as $error)
+                {{ $error }}
+            @endforeach
+        </p>
+    @endif
+
     <form method="POST" action="{{ route('atividades.update', $atividade->id) }}">
         @csrf
         @method('PUT')

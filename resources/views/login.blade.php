@@ -10,6 +10,15 @@
 
 <body>
     <h3>Área de Login</h3>
+
+    @if($errors->any())
+        <p>
+            @foreach($errors->all() as $error)
+                {{ $error }}
+            @endforeach
+        </p>
+    @endif
+
     <form action="/login" method="post">
         @csrf
         <div class="mb-3">
@@ -21,7 +30,7 @@
             <input type="password" name="password" class="form-control" placeholder="Digite sua senha" required>
         </div>
         <button type="submit">Entrar</button>
-        <a href="/" >Voltar</a>
+        <a href="/">Voltar</a>
     </form>
 </body>
 

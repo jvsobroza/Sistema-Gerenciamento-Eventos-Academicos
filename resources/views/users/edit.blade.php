@@ -5,6 +5,15 @@
 @section('content')
     <h1>Editar Administrador</h1>
 
+     @if($errors->any())
+        <p>
+            @foreach($errors->all() as $error)
+                {{ $error }}
+            @endforeach
+        </p>
+    @endif
+
+
     <form method="POST" action="{{ route('users.update', $user->id) }}">
         @csrf
         @method('PUT')
