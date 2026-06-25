@@ -21,6 +21,7 @@
             <a href="{{ route('aluno.edit', auth()->user()->id) }}">
                 Editar Conta
             </a>
+
             <form action="{{ route('logout') }}" method="POST" style="display:inline;">
                 @csrf
                 <button type="submit">Sair</button>
@@ -34,6 +35,29 @@
         <hr>
 
         <h2>{{ $evento->nome }} ({{ $evento->sigla }})</h2>
+
+        @if(auth()->user()->tipo == 2)
+
+            @php
+                $certificado = \App\Models\Certificado::where('id_usuario', auth()->id())
+                    ->where('id_evento', $evento->id)
+                    ->first();
+            @endphp
+
+            @if($certificado)
+
+                <p style="color:green;">
+                    Certificado disponível
+                </p>
+
+                <a href="{{ asset('storage/' . $certificado->arquivo_salvo) }}"
+                   target="_blank">
+                    Ver Certificado
+                </a>
+
+            @endif
+
+        @endif
 
         <p>
             <strong>Local:</strong> {{ $evento->local }}
@@ -77,8 +101,23 @@
                 </thead>
 
                 <tbody>
+
                     @foreach($atividades as $atividade)
+
+                        @php
+                            $inscricao = $atividade->inscricoes
+                                ->where('id_usuario', auth()->id())
+                                ->first();
+
+                            $dataHoraFim = \Carbon\Carbon::parse(
+                                $atividade->data . ' ' . $atividade->hora_fim
+                            );
+
+                            $atividadeEncerrada = now()->greaterThan($dataHoraFim);
+                        @endphp
+
                         <tr>
+
                             <td>{{ $atividade->titulo }}</td>
 
                             <td>
@@ -94,56 +133,82 @@
                             <td>{{ $atividade->vagas }}</td>
 
                             <td>{{ $atividade->tipo }}</td>
-                            @php
-    $inscricao = $atividade->inscricoes
-        ->where('id_usuario', auth()->id())
-        ->first();
-@endphp
 
                             @if(auth()->user()->tipo == 2)
+
                                 <td>
+
                                     @if($inscricao)
 
-                                        <form action="{{ route('inscricao.destroy', $inscricao->id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
+                                        @if($atividadeEncerrada)
 
-                                            <button type="submit">
-                                                Desinscrever-se
-                                            </button>
-                                        </form>
+                                            <span>
+                                                Participação encerrada
+                                            </span>
+
+                                        @else
+
+                                            <form action="{{ route('inscricao.destroy', $inscricao->id) }}"
+                                                  method="POST">
+
+                                                @csrf
+                                                @method('DELETE')
+
+                                                <button type="submit">
+                                                    Desinscrever-se
+                                                </button>
+
+                                            </form>
+
+                                        @endif
 
                                     @elseif($atividade->vagas > 0)
 
-                                        <form action="{{ route('inscricao.store') }}" method="POST">
+                                        <form action="{{ route('inscricao.store') }}"
+                                              method="POST">
+
                                             @csrf
 
-                                            <input type="hidden" name="id_atividade" value="{{ $atividade->id }}">
+                                            <input type="hidden"
+                                                   name="id_atividade"
+                                                   value="{{ $atividade->id }}">
 
                                             <button type="submit">
                                                 Inscrever-se
                                             </button>
+
                                         </form>
 
                                     @else
-                                        Lotado
+
+                                        <span>Lotado</span>
+
                                     @endif
+
                                 </td>
+
                             @endif
 
                         </tr>
+
                     @endforeach
+
                 </tbody>
+
             </table>
 
             <br>
 
         @empty
+
             <p>Nenhuma atividade cadastrada.</p>
+
         @endforelse
 
     @empty
+
         <p>Nenhum evento cadastrado.</p>
+
     @endforelse
 
 </body>

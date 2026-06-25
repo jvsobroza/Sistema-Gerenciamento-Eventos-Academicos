@@ -6,6 +6,9 @@ use App\Models\Certificado;
 use App\Models\Evento;
 use App\Models\Presenca;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Request;
 
 class CertificadoController extends Controller
 {
@@ -53,22 +56,33 @@ class CertificadoController extends Controller
             }
         }
 
-        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('certificado.pdf', [
+        $codigo = $this->codigo();
+
+        $pdf = Pdf::loadView('certificado.pdf', [
             'evento' => $evento,
             'usuario' => $usuario,
             'totalHoras' => $totalHoras,
-            'dataEmissao' => now()->format('d/m/Y')
+            'dataEmissao' => now()->format('d/m/Y'),
+            'codigo' => $codigo
         ]);
-        $dados['codigo_verificacao'] = $this->codigo();
-        $dados['usuario_id'] = $usuario_id;
-        $dados['evento_id'] = $evento_id;
-        $dados['data_emissao'] = now();
-        $dados['carga_horaria'] = $totalHoras;
-        $destino = base_path('public/pdfs');
-        $pdf->move($destino);
-        $dados['arquivo_salvo'] = $pdf;
-        Certificado::create($dados);
-        return $pdf->download('certificado.pdf');
+
+        $nomeArquivo = "certificado_{$usuario_id}_{$evento_id}.pdf";
+
+        Storage::disk('public')->put(
+            "certificados/$nomeArquivo",
+            $pdf->output()
+        );
+
+        Certificado::create([
+            'id_usuario' => $usuario_id,
+            'id_evento' => $evento_id,
+            'codigo_verificacao' => $codigo,
+            'data_emissao' => now(),
+            'arquivo_salvo' => "certificados/$nomeArquivo",
+            'carga_horaria' => $totalHoras
+        ]);
+
+        return back()->with('success', 'Certificado gerado com sucesso!');
     }
 
     private function codigo()
@@ -76,19 +90,28 @@ class CertificadoController extends Controller
         return strtoupper(substr(bin2hex(random_bytes(4)), 1));
     }
 
-    public function verifica($codigo_verificacao)
+    public function verifica(Request $request)
     {
-        $certificado = Certificado::whereIn('codigo_verificacao', $codigo_verificacao)->exists();
-        if ($certificado) {
-            return redirect()->route('certificado_verifica.index')
-                ->with('success', 'Certificado existente!');
-        } else {
-            return back()->withErrors([
-                'codigo_verificacao' => 'Certificado não encontrado.'
-            ])->withInput();
-        }
-    }
+        $request->validate([
+            'codigo_verificacao' => 'required'
+        ]);
 
+        $certificado = Certificado::where(
+            'codigo_verificacao',
+            $request->codigo_verificacao
+        )->first();
+
+        if ($certificado) {
+            return back()->with(
+                'success',
+                'Certificado existente!'
+            );
+        }
+
+        return back()->withErrors([
+            'codigo_verificacao' => 'Certificado não encontrado.'
+        ]);
+    }
     public function index2()
     {
         return view('certificado_verifica.index');
