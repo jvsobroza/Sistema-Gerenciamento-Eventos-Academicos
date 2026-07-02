@@ -1,0 +1,172 @@
+/* ===== Layout da Dashboard Minimalista ===== */
+
+.dashboard-wrapper {
+    padding: 30px;
+}
+
+.dashboard-header {
+    margin-bottom: 35px;
+}
+
+.dashboard-header h1 {
+    font-family: "SN Pro", sans-serif;
+    color: var(--azul-mais-escuro);
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+
+.dashboard-header p {
+    font-size: 14px;
+    color: var(--texto-secundario);
+}
+
+/* Grid de Indicadores */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.metric-card {
+    background: #fff;
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 36, 61, 0.02); 
+    min-height: 110px;      
+}
+
+.metric-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--texto-secundario);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+}
+
+.metric-value {
+    font-family: "SN Pro", sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--azul-mais-escuro);
+    line-height: 1;
+}
+
+.dashboard-sections-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 25px;
+    margin-top: 35px;
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 992px) {
+    .dashboard-sections-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.dashboard-section-card {
+    background: #fff;
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0, 36, 61, 0.02);
+}
+
+.section-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.section-card-header h2 {
+    font-family: "SN Pro", sans-serif;
+    color: var(--azul-mais-escuro);
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.link-ver-todos {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--azul-principal);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.link-ver-todos:hover {
+    color: var(--azul-mais-escuro);
+}
+
+/* Estilização das Listas de Itens */
+.list-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-radius: 6px;
+    background-color: rgba(203, 224, 218, 0.1);
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.list-item:hover {
+    background-color: #fff;
+    border-color: var(--cor-borda);
+}
+
+.item-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.item-details strong {
+    font-size: 14px;
+    color: var(--texto-principal);
+}
+
+.item-details span {
+    font-size: 12px;
+    color: var(--texto-secundario);
+}
+
+.item-badge {
+    font-size: 11px;
+    font-weight: 700;
+    background-color: var(--azul-claro);
+    color: var(--azul-mais-escuro);
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.item-date {
+    font-size: 11px;
+    color: var(--texto-secundario);
+}
+
+.empty-list-text {
+    font-size: 13px;
+    color: var(--texto-secundario);
+    text-align: center;
+    padding: 20px 0;
+}
+
+.dashboard-section-card {
+    min-height: 280px; 
+}

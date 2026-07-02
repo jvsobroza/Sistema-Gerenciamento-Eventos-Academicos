@@ -3,61 +3,135 @@
 @section('title', 'Atividades')
 
 @section('content')
-    <h1>Lista de Atividades</h1>
+    <div class="cartao-lista">
 
-    @if(session('success'))
-        <p>{{ session('success') }}</p>
-    @endif
+        <div class="cabecalho-lista">
 
-    @if(session('error'))
-        <p>
-            {{ session('error') }}
-        </p>
-    @endif
+            <h1 class="titulo-pagina">
+                Lista de Atividades
+            </h1>
 
-    <a href="{{ route('atividades.create') }}">Criar Atividade</a>
+            <a href="{{ route('atividades.create') }}" class="botao-principal">
+                Criar Atividade
+            </a>
 
-    <table border="1" cellpadding="8" cellspacing="0" style="margin-top: 15px; width: 100%;">
-        <thead>
-            <tr>
-                <th>Evento</th>
-                <th>Título</th>
-                <th>Data</th>
-                <th>Hora Início</th>
-                <th>Hora Fim</th>
-                <th>Local</th>
-                <th>Vagas</th>
-                <th>Tipo</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
+        </div>
 
-        <tbody>
-            @foreach($atividades as $atividade)
-                <tr>
-                    <td>{{ $atividade->evento->nome ?? 'Sem evento' }}</td>
-                    <td>{{ $atividade->titulo }}</td>
-                    <td>{{ $atividade->data }}</td>
-                    <td>{{ $atividade->hora_inicio }}</td>
-                    <td>{{ $atividade->hora_fim }}</td>
-                    <td>{{ $atividade->local }}</td>
-                    <td>{{ $atividade->vagas }}</td>
-                    <td>{{ $atividade->tipo }}</td>
+        @if(session('success'))
 
-                    <td>
-                        <a href="{{ route('atividades.edit', $atividade->id) }}">Editar</a>
+            <div class="alerta-sucesso">
+                {{ session('success') }}
+            </div>
 
-                        <form action="{{ route('atividades.destroy', $atividade->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
+        @endif
 
-                            <button onclick="return confirm('Deseja excluir esta atividade?')">
-                                Excluir
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+        @if(session('error'))
+
+            <div class="alerta-erro">
+                {{ session('error') }}
+            </div>
+
+        @endif
+
+        <div class="tabela-responsiva">
+
+            <table class="tabela-estilizada">
+
+                <thead>
+
+                    <tr>
+                        <th>Evento</th>
+                        <th>Título</th>
+                        <th>Data</th>
+                        <th>Hora Início</th>
+                        <th>Hora Fim</th>
+                        <th>Local</th>
+                        <th>Vagas</th>
+                        <th>Tipo</th>
+                        <th>Ações</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach($atividades as $atividade)
+
+                        <tr>
+
+                            <td>
+                                {{ $atividade->evento->nome ?? 'Sem evento' }}
+                            </td>
+
+                            <td>
+                                {{ $atividade->titulo }}
+                            </td>
+
+                            <td>
+                                {{ date('d/m/Y', strtotime($atividade->data)) }}
+                            </td>
+
+                            <td>
+                                {{ $atividade->hora_inicio }}
+                            </td>
+
+                            <td>
+                                {{ $atividade->hora_fim }}
+                            </td>
+
+                            <td>
+                                {{ $atividade->local }}
+                            </td>
+
+                            <td>
+                                {{ $atividade->vagas }}
+                            </td>
+
+                            <td>
+
+                                <span class="badge-tipo">
+                                    {{ $atividade->tipo }}
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <div class="grupo-botoes">
+
+                                    <a href="{{ route('atividades.edit', $atividade->id) }}" class="botao-editar">
+
+                                        Editar
+
+                                    </a>
+
+                                    <form action="{{ route('atividades.destroy', $atividade->id) }}" method="POST">
+
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button class="botao-excluir"
+                                            onclick="return confirm('Deseja excluir esta atividade?')">
+
+                                            Excluir
+
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    @endforeach
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
 @endsection

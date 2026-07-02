@@ -6,12 +6,18 @@
         <p>{{ session('success') }}</p>
     @endif
 
+
+    <a href="{{ route('certificados.index') }}" class="botao-secundario">
+        Voltar
+    </a>
     <h1>{{ $evento->nome }}</h1>
 
     @foreach($usuarios as $usuario)
 
         @php
-            $certificado = \App\Models\Certificado::where('id_usuario', $usuario->id)->first();
+            $certificado = \App\Models\Certificado::where('id_usuario', $usuario->id)
+                ->where('id_evento', $evento->id)
+                ->first();
         @endphp
 
         <div style="margin-bottom:10px">

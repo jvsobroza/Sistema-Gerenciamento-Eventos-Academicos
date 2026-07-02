@@ -4,75 +4,119 @@
 
 @section('content')
 
-    <h1>Lista de Inscrições</h1>
+    <h1 class="titulo-pagina">
+        Lista de Inscrições
+    </h1>
 
-    @forelse($eventos as $evento)
+    <div class="cartao-lista">
 
-        <h2>
-            {{ $evento->nome }}
-            ({{ $evento->sigla }})
-        </h2>
+        @forelse($eventos as $evento)
 
-        <p>
-            {{ date('d/m/Y', strtotime($evento->data_inicio)) }}
-            até
-            {{ date('d/m/Y', strtotime($evento->data_fim)) }}
-        </p>
+            <div class="bloco-evento">
 
-        @forelse($evento->atividades as $atividade)
+                <h2 class="titulo-evento">
+                    {{ $evento->nome }}
+                    <span class="sigla-evento">
+                        ({{ $evento->sigla }})
+                    </span>
+                </h2>
 
-            <h3>
-                {{ $atividade->titulo }}
-            </h3>
+                <p class="periodo-evento">
 
-            <table border="1" cellpadding="8" cellspacing="0" width="100%">
-                <thead>
-                    <tr>
-                        <th>Aluno</th>
-                        <th>Email</th>
-                        <th>Data da Inscrição</th>
-                    </tr>
-                </thead>
+                    {{ date('d/m/Y', strtotime($evento->data_inicio)) }}
+                    até
+                    {{ date('d/m/Y', strtotime($evento->data_fim)) }}
 
-                <tbody>
+                </p>
 
-                    @forelse($atividade->inscricoes as $inscricao)
+                @forelse($evento->atividades as $atividade)
 
-                        <tr>
-                            <td>{{ $inscricao->usuario->nome }}</td>
-                            <td>{{ $inscricao->usuario->email }}</td>
-                            <td>
-                                {{ \Carbon\Carbon::parse($inscricao->data_inscricao)->format('d/m/Y') }}
-                            </td>
-                        </tr>
+                    <div class="bloco-atividade">
 
-                    @empty
+                        <h3 class="titulo-atividade">
 
-                        <tr>
-                            <td colspan="3">
-                                Nenhuma inscrição nesta atividade.
-                            </td>
-                        </tr>
+                            {{ $atividade->titulo }}
 
-                    @endforelse
+                        </h3>
 
-                </tbody>
-            </table>
+                        <div class="tabela-responsiva">
 
-            <br>
+                            <table class="tabela-estilizada">
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>Aluno</th>
+                                        <th>Email</th>
+                                        <th>Data da Inscrição</th>
+
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                    @forelse($atividade->inscricoes as $inscricao)
+
+                                        <tr>
+
+                                            <td>{{ $inscricao->usuario->nome }}</td>
+
+                                            <td>{{ $inscricao->usuario->email }}</td>
+
+                                            <td>
+
+                                                {{ date('d/m/Y', strtotime($inscricao->data_inscricao)) }}
+
+                                            </td>
+
+                                        </tr>
+
+                                    @empty
+
+                                        <tr>
+
+                                            <td colspan="3" class="texto-centro">
+
+                                                Nenhuma inscrição nesta atividade.
+
+                                            </td>
+
+                                        </tr>
+
+                                    @endforelse
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                @empty
+
+                    <p class="mensagem-vazia">
+
+                        Nenhuma atividade cadastrada.
+
+                    </p>
+
+                @endforelse
+
+            </div>
 
         @empty
 
-            <p>Nenhuma atividade cadastrada.</p>
+            <p class="mensagem-vazia">
+
+                Nenhum evento encontrado.
+
+            </p>
 
         @endforelse
 
-        <hr>
-
-    @empty
-
-        <p>Nenhum evento encontrado.</p>
-
-    @endforelse
+    </div>
 
 @endsection
