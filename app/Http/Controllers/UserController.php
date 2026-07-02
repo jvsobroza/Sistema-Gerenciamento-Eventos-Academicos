@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Evento;
 use App\Models\Certificado;
+use App\Models\Inscricao;
 
 class UserController extends Controller
 {
@@ -33,12 +34,35 @@ class UserController extends Controller
 
     public function paginaAlunos()
     {
-        $eventos = Evento::with('atividades')
-            ->whereDate('data_fim', '>=', today())
+        $userId = auth()->id();
+        $eventosInscritos = Evento::with(['atividades' => function ($query) use ($userId) {
+            $query->whereHas('inscricoes', function ($q) use ($userId) {
+                $q->where('id_usuario', $userId);
+            });
+        }])
+            ->whereHas('atividades.inscricoes', function ($query) use ($userId) {
+                $query->where('id_usuario', $userId);
+            })
             ->orderBy('data_inicio')
             ->get();
+        $proximosEventos = Evento::with('atividades')
+            ->whereDate('data_fim', '>=', today())
+            ->whereDoesntHave('atividades.inscricoes', function ($query) use ($userId) {
+                $query->where('id_usuario', $userId);
+            })
+            ->orderBy('data_inicio')
+            ->get();
+        $alunoAtividadesCount = Inscricao::where('id_usuario', $userId)->count();
+        $alunoCertificadosCount = Certificado::where('id_usuario', $userId)->count();
+        $alunoEventosCount = $eventosInscritos->count(); // Usa direto o count da coleção acima
 
-        return view('aluno.paginaAluno', compact('eventos'));
+        return view('aluno.paginaAluno', compact(
+            'eventosInscritos',
+            'proximosEventos',
+            'alunoEventosCount',
+            'alunoAtividadesCount',
+            'alunoCertificadosCount'
+        ));
     }
 
     public function create()
@@ -151,5 +175,4 @@ class UserController extends Controller
         return redirect()->route('aluno.pagina')
             ->with('success', 'Nome atualizado com sucesso!');
     }
-
 }
