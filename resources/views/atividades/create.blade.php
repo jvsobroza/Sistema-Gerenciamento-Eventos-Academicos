@@ -159,8 +159,8 @@
                             Oficina
                         </option>
 
-                        <option value="RODA_DE_REGRESSOS" {{ old('tipo') == 'RODA_DE_REGRESSOS' ? 'selected' : '' }}>
-                            Roda de Regressos
+                        <option value="RODA_DE_EGRESSOS" {{ old('tipo') == 'RODA_DE_EGRESSOS' ? 'selected' : '' }}>
+                            Roda de Egressos
                         </option>
 
                         <option value="MINI_CURSO" {{ old('tipo') == 'MINI_CURSO' ? 'selected' : '' }}>
