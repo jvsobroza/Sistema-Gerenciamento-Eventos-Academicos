@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Elms+Sans:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=SN+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --verde-principal: #1DD73C;
+    --vermelho-erro: #F02719;
+    --fundo-claro: #E5FCF5;
+    --cor-borda: #cbe0da;
+    --azul-claro: #4BB3FD;
+    --azul-medio: #014779;
+    --azul-principal: #027BCE;
+    --azul-escuro: #00487C;
+    --azul-mais-escuro: #00243D;
+    --texto-principal: #1F271B;
+    --texto-secundario: #64748b;
+}
+
+html, body {
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--fundo-claro);
+    color: var(--texto-principal);
+}
+
+.layout-admin {
+    display: flex;
+    min-height: 100vh;
+}
+
+.menu-lateral {
+    width: 260px;
+    background-color: var(--azul-mais-escuro);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 20px;
+    flex-shrink: 0;
+}
+
+.titulo-menu {
+    font-family: 'SN Pro', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 40px;
+    color: var(--azul-claro);
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+.lista-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-grow: 1;
+}
+
+.link-menu {
+    display: block;
+    padding: 12px 16px;
+    color: #e2e8f0;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 15px;
+    transition: all 0.2s ease;
+}
+
+.link-menu:hover {
+    background-color: var(--azul-principal);
+    color: #fff;
+    transform: translateX(4px);
+}
+
+.item-sair {
+    margin-top: auto;
+    padding-top: 30px;
+}
+
+.form-sair {
+    display: block;
+    width: 100%;
+}
+
+.botao-sair-menu {
+    width: 100%;
+    padding: 12px 16px;
+    background-color: transparent;
+    color: var(--vermelho-erro);
+    border: 1.5px solid var(--vermelho-erro);
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.botao-sair-menu:hover {
+    background-color: var(--vermelho-erro);
+    color: #fff;
+}
+
+.area-conteudo {
+    flex-grow: 1;
+    padding: 40px;
+    overflow-y: auto;
+    background-color: var(--fundo-claro);
+}
