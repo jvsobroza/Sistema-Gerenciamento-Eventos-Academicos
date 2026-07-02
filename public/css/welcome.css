@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Elms+Sans:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=SN+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Elms+Sans:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=SN+Pro:ital,wght@0,200..900;1,200..900&display=swap");
 
 *,
 *::before,
@@ -9,24 +9,24 @@
 }
 
 :root {
-    --verde-principal: #1DD73C;
-    --vermelho-erro: #F02719;
-    --fundo-claro: #E5FCF5;
+    --verde-principal: #1dd73c;
+    --vermelho-erro: #f02719;
+    --fundo-claro: #e5fcf5;
     --cor-borda: #cbe0da;
-    --azul-claro: #4BB3FD;
+    --azul-claro: #4bb3fd;
     --azul-medio: #014779;
-    --azul-principal: #027BCE;
-    --azul-escuro: #00487C;
-    --azul-mais-escuro: #00243D;
+    --azul-principal: #027bce;
+    --azul-escuro: #00487c;
+    --azul-mais-escuro: #00243d;
     --azul-escurao: #001829;
-    --texto-principal: #1F271B;
-    --texto-secundario: #64748b; 
+    --texto-principal: #1f271b;
+    --texto-secundario: #64748b;
 }
 
 html,
 body {
     min-height: 100%;
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
     background: var(--fundo-claro);
     color: var(--texto-principal);
 }
@@ -44,7 +44,6 @@ body {
     border-bottom: 1px solid var(--cor-borda);
     padding: 20px 0;
     box-shadow: 0 4px 12px rgba(0, 36, 61, 0.05);
-    margin-bottom: 40px;
 }
 
 .cabecalho-topo .container {
@@ -56,7 +55,7 @@ body {
 }
 
 .titulo-pagina {
-    font-family: 'SN Pro', sans-serif;
+    font-family: "SN Pro", sans-serif;
     color: var(--azul-mais-escuro);
     font-weight: 800;
     font-size: 24px;
@@ -72,7 +71,7 @@ body {
 .botao-admin {
     padding: 10px 16px;
     border-radius: 8px;
-    font-family: 'SN Pro', sans-serif;
+    font-family: "SN Pro", sans-serif;
     font-size: 14px;
     font-weight: 600;
     text-decoration: none;
@@ -118,17 +117,22 @@ body {
 }
 
 .cartao-evento::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 5px;
     height: 100%;
-    background: linear-gradient(to bottom, var(--azul-mais-escuro), var(--azul-principal), var(--azul-claro));
+    background: linear-gradient(
+        to bottom,
+        var(--azul-mais-escuro),
+        var(--azul-principal),
+        var(--azul-claro)
+    );
 }
 
 .titulo-evento {
-    font-family: 'SN Pro', sans-serif;
+    font-family: "SN Pro", sans-serif;
     font-size: 22px;
     color: var(--azul-mais-escuro);
     margin-bottom: 15px;
@@ -164,7 +168,7 @@ body {
 
 /* ===== Tabela de Atividades ===== */
 .data-atividade {
-    font-family: 'SN Pro', sans-serif;
+    font-family: "SN Pro", sans-serif;
     font-size: 18px;
     color: var(--azul-escuro);
     margin: 25px 0 10px 0;
@@ -201,7 +205,12 @@ body {
 }
 
 .tabela-estilizada tbody tr:nth-of-type(even) {
-    background-color: rgba(203, 224, 218, 0.15); /* Fundo clarinho pra intercalar */
+    background-color: rgba(
+        203,
+        224,
+        218,
+        0.15
+    ); /* Fundo clarinho pra intercalar */
 }
 
 .tabela-estilizada tbody tr:last-child td {
@@ -247,4 +256,157 @@ body {
     text-align: center;
     color: var(--texto-secundario);
     font-weight: 500;
+}
+/* ===== Elementos de Interface Minimalistas ===== */
+
+.logo-sistema {
+    font-family: 'SN Pro', sans-serif;
+    color: var(--azul-mais-escuro);
+    font-weight: 800;
+    font-size: 22px;
+}
+
+.logo-sistema span {
+    color: var(--azul-principal);
+}
+
+.link-verificar {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 16px;
+    font-family: 'SN Pro', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--azul-principal);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.link-verificar:hover {
+    color: var(--azul-mais-escuro);
+}
+
+/* Seção Hero - Fundo Limpo e Foco em Tipografia */
+.hero-section {
+    background-color: var(--azul-mais-escuro);
+    color: #fff;
+    padding: 70px 0;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.hero-section h2 {
+    font-family: 'SN Pro', sans-serif;
+    font-size: 34px;
+    font-weight: 800;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+}
+
+.hero-section p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 30px;
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-ctas {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.botao-principal,
+.botao-secundario {
+    padding: 12px 22px;
+    border-radius: 6px;
+    font-family: 'SN Pro', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.botao-principal {
+    background: var(--azul-claro);
+    color: var(--azul-mais-escuro);
+}
+
+.botao-principal:hover {
+    background: #fff;
+}
+
+.botao-secundario {
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.botao-secundario:hover {
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Grid de Recursos Sem Elementos Gráficos Excessivos */
+.recursos-sistema {
+    margin-bottom: 60px;
+}
+
+.grid-recursos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.cartao-recurso {
+    background: #fff;
+    padding: 30px 25px;
+    border-radius: 8px;
+    border: 1px solid var(--cor-borda);
+    text-align: left;
+}
+
+.cartao-recurso h3 {
+    font-family: 'SN Pro', sans-serif;
+    color: var(--azul-mais-escuro);
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.cartao-recurso p {
+    font-size: 13.5px;
+    color: var(--texto-secundario);
+    line-height: 1.5;
+}
+
+/* Alinhamento de Títulos e Estados Vazios */
+.secao-titulo {
+    font-family: 'SN Pro', sans-serif;
+    font-size: 20px;
+    color: var(--azul-mais-escuro);
+    margin-bottom: 25px;
+    font-weight: 800;
+}
+
+.container-sem-eventos {
+    background: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    border: 1px solid var(--cor-borda);
+    text-align: center;
+}
+
+/* Rodapé Sóbrio */
+.rodape-sistema {
+    background: #fff;
+    color: var(--texto-secundario);
+    padding: 25px 0;
+    text-align: center;
+    font-size: 13px;
+    margin-top: 80px;
+    border-top: 1px solid var(--cor-borda);
 }

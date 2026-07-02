@@ -9,6 +9,10 @@ use \App\Http\Controllers\PresencaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RelatorioController;
+use App\Models\Atividade;
+use App\Models\Evento;
+use App\Models\Inscricao;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +41,27 @@ Route::get('/auth/google/callback', [AuthController::class, 'callbackGoogle']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
 Route::get('/dashboard', function () {
-    return view('adm.dashboard');
+    $totalAlunos = User::where('tipo', 2)->count();
+    $totalEventos = Evento::count();
+    $totalInscricoes = Inscricao::count();
+    $totalAtividades = Atividade::count();
+    $proximosEventos = Evento::where('data_inicio', '>=', now()->toDateString())
+        ->orderBy('data_inicio', 'asc')
+        ->take(5)
+        ->get();
+    $ultimosAlunos = User::where('tipo', 2)
+        ->orderBy('created_at', 'desc')
+        ->take(5)
+        ->get();
+
+    return view('adm.dashboard', compact(
+        'totalAlunos',
+        'totalEventos',
+        'totalInscricoes',
+        'totalAtividades',
+        'proximosEventos',
+        'ultimosAlunos'
+    ));
 })->middleware('auth')->name('adm.dashboard');
 
 Route::get('/pagina-aluno', [UserController::class, 'paginaAlunos'])->name('aluno.pagina')->middleware('auth');
@@ -67,8 +91,7 @@ Route::get('/certificados/{evento}', [CertificadoController::class, 'evento'])->
 Route::get('/certificados/{evento}/{usuario}', [CertificadoController::class, 'pdf'])->name('certificados.pdf');
 
 Route::get('/certificado_verifica', [CertificadoController::class, 'index2'])->name('certificado_verifica');
-Route::post('/verifica_certificado',[CertificadoController::class, 'verifica'])->name('certificado.verifica');
+Route::post('/verifica_certificado', [CertificadoController::class, 'verifica'])->name('certificado.verifica');
 
 Route::get('/presenca/{atividade}/pdf', [PresencaController::class, 'pdf'])
     ->name('presenca.pdf');
-

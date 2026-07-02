@@ -20,7 +20,7 @@
 
         <aside class="menu-lateral">
 
-            <h2 class="titulo-menu">Sistema</h2>
+            <h2 class="titulo-menu">SeTEIC</h2>
 
             <ul class="lista-links">
 
