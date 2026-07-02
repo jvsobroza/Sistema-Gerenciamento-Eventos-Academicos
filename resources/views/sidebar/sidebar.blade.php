@@ -5,98 +5,104 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
-
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
     <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/inscricaoindex.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/indexatividade.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/indexaluno.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/editaratividade.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/criaratividade.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Sora:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    @stack('head')
 </head>
 
 <body>
 
-    <div class="layout-admin">
+    @php $user = auth()->user(); @endphp
 
-        <aside class="menu-lateral">
+    <div class="app-shell">
+        <div class="sidebar">
 
-            <h2 class="titulo-menu">SeTEIC</h2>
+            <div class="profile">
+                <div class="avatar">
+                    {{ strtoupper(substr($user->nome, 0, 1)) }}
+                </div>
 
-            <ul class="lista-links">
+                <div class="meta">
+                    <div class="name">
+                        {{ $user->nome }}
+                    </div>
 
-                <li>
-                    <a class="link-menu" href="{{ route('adm.dashboard') }}">
-                        Dashboard Admin
-                    </a>
-                </li>
+                    <div class="role">
+                        {{ $user->tipo == 1 ? 'Administrador' : 'Usuário' }}
+                    </div>
+                </div>
+            </div>
 
-                <li>
-                    <a class="link-menu" href="{{ route('users.index') }}">
-                        Administradores
-                    </a>
-                </li>
+            <nav class="sidebar-nav">
+                <a href="{{ route('adm.dashboard') }}"
+                    class="{{ request()->routeIs('adm.dashboard') ? 'active' : '' }}">
+                    <i class="bi bi-house icon"></i>
+                    <span class="label">Dashboard</span>
+                </a>
 
-                <li>
-                    <a class="link-menu" href="{{ route('aluno.pagina') }}">
-                        Área do Aluno
-                    </a>
-                </li>
+                <a href="{{ route('users.index') }}" class="{{ request()->routeIs('users.*') ? 'active' : '' }}">
+                    <i class="bi bi-people icon"></i>
+                    <span class="label">Administradores</span>
+                </a>
 
-                <li>
-                    <a class="link-menu" href="{{ route('aluno.index') }}">
-                        Alunos
-                    </a>
-                </li>
+                <a href="{{ route('aluno.pagina') }}" class="{{ request()->routeIs('aluno.pagina') ? 'active' : '' }}">
+                    <i class="bi bi-mortarboard icon"></i>
+                    <span class="label">Área do Aluno</span>
+                </a>
 
-                <li>
-                    <a class="link-menu" href="{{ route('evento.index') }}">
-                        Eventos
-                    </a>
-                </li>
+                <a href="{{ route('aluno.index') }}" class="{{ request()->routeIs('aluno.index') ? 'active' : '' }}">
+                    <i class="bi bi-person-badge icon"></i>
+                    <span class="label">Alunos</span>
+                </a>
 
-                <li>
-                    <a class="link-menu" href="{{ route('atividades.index') }}">
-                        Atividades
-                    </a>
-                </li>
+                <a href="{{ route('evento.index') }}" class="{{ request()->routeIs('evento.*') ? 'active' : '' }}">
+                    <i class="bi bi-calendar-event icon"></i>
+                    <span class="label">Eventos</span>
+                </a>
 
-                <li>
-                    <a class="link-menu" href="{{ route('inscricao.index') }}">
-                        Inscrições
-                    </a>
-                </li>
+                <a href="{{ route('atividades.index') }}"
+                    class="{{ request()->routeIs('atividades.*') ? 'active' : '' }}">
+                    <i class="bi bi-journal-text icon"></i>
+                    <span class="label">Atividades</span>
+                </a>
 
-                <li>
-                    <a class="link-menu" href="{{ route('presenca.index') }}">
-                        Presença
-                    </a>
-                </li>
+                <a href="{{ route('inscricao.index') }}"
+                    class="{{ request()->routeIs('inscricao.*') ? 'active' : '' }}">
+                    <i class="bi bi-pencil-square icon"></i>
+                    <span class="label">Inscrições</span>
+                </a>
 
-                <li>
-                    <a class="link-menu" href="{{ route('certificados.index') }}">
-                        Certificados
-                    </a>
-                </li>
+                <a href="{{ route('presenca.index') }}" class="{{ request()->routeIs('presenca.*') ? 'active' : '' }}">
+                    <i class="bi bi-check2-square icon"></i>
+                    <span class="label">Presença</span>
+                </a>
 
-                <li class="item-sair">
+                <a href="{{ route('certificados.index') }}"
+                    class="{{ request()->routeIs('certificados.*') ? 'active' : '' }}">
+                    <i class="bi bi-award icon"></i>
+                    <span class="label">Certificados</span>
+                </a>
 
-                    <form class="form-sair" method="POST" action="{{ route('logout') }}">
+                <div class="divider"></div>
+
+                <div class="cta">
+                    <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button class="botao-sair-menu" type="submit">
-                            Sair
-                        </button>
+                        <button type="submit" class="btn-logout"><i class="bi bi-box-arrow-right"></i> Sair</button>
                     </form>
+                </div>
+            </nav>
+        </div>
 
-                </li>
-
-            </ul>
-
-        </aside>
-
-        <main class="area-conteudo">
+        <div class="main-content">
             @yield('content')
-        </main>
-
+        </div>
     </div>
 
 </body>
