@@ -73,14 +73,18 @@ class CertificadoController extends Controller
             $pdf->output()
         );
 
-        Certificado::create([
-            'id_usuario' => $usuario_id,
-            'id_evento' => $evento_id,
-            'codigo_verificacao' => $codigo,
-            'data_emissao' => now(),
-            'arquivo_salvo' => "certificados/$nomeArquivo",
-            'carga_horaria' => $totalHoras
-        ]);
+        Certificado::updateOrCreate(
+            [
+                'id_usuario' => $usuario_id,
+                'id_evento' => $evento_id
+            ],
+            [
+                'codigo_verificacao' => $codigo,
+                'data_emissao' => now(),
+                'arquivo_salvo' => "certificados/$nomeArquivo",
+                'carga_horaria' => $totalHoras
+            ]
+        );
 
         return back()->with('success', 'Certificado gerado com sucesso!');
     }

@@ -3,106 +3,203 @@
 @section('title', 'Criar Atividade')
 
 @section('content')
-    <h1>Criar Atividade</h1>
+    <div class="cartao-formulario">
 
-    @if($errors->any())
-        <p>
-            @foreach($errors->all() as $error)
-                {{ $error }}
-            @endforeach
-        </p>
-    @endif
+        <h1 class="titulo-pagina">
+            Criar Atividade
+        </h1>
 
-    <form method="POST" action="{{ route('atividades.store') }}">
-        @csrf
+        @if($errors->any())
 
-        <div>
-            <label>Evento</label>
-            <select name="id_evento" required>
-                <option value="">Selecione um evento</option>
+            <div class="alerta-erro">
 
-                @foreach($eventos as $evento)
-                    <option value="{{ $evento->id }}">
-                        {{ $evento->nome }}
-                    </option>
+                @foreach($errors->all() as $error)
+
+                    <div>{{ $error }}</div>
+
                 @endforeach
-            </select>
-        </div>
 
-        <div>
-            <label>Título</label>
-            <input type="text" name="titulo" required>
-        </div>
+            </div>
 
-        <div>
-            <label>Descrição</label>
-            <textarea name="descricao" required></textarea>
-        </div>
+        @endif
 
-        <div>
-            <label>Data</label>
-            <input type="date" name="data" required>
-        </div>
+        <form method="POST" action="{{ route('atividades.store') }}">
 
-        <div>
-            <label>Hora Início</label>
-            <input type="time" name="hora_inicio" required>
-        </div>
+            @csrf
 
-        <div>
-            <label>Hora Fim</label>
-            <input type="time" name="hora_fim" required>
-        </div>
+            <div class="grade-campos">
 
-        <div>
-            <label>Local</label>
-            <input type="text" name="local" required>
-        </div>
+                <div class="grupo-campo">
 
-        <div>
-            <label>Vagas</label>
-            <input type="number" name="vagas" required>
-        </div>
+                    <label class="rotulo-campo">
+                        Evento
+                    </label>
 
-        <div>
-            <label>Responsáveis</label>
-            <input type="text" name="responsaveis" required>
-        </div>
+                    <select name="id_evento" class="campo-input" required>
 
-        <div>
-            <label>Tipo</label>
+                        <option value="">
+                            Selecione um evento
+                        </option>
 
-            <select name="tipo" id="tipo" required>
-                <option value="">Selecione o tipo</option>
+                        @foreach($eventos as $evento)
 
-                <option value="PALESTRA" {{ old('tipo') == 'PALESTRA' ? 'selected' : '' }}>
-                    Palestra
-                </option>
+                            <option value="{{ $evento->id }}">
 
-                <option value="JOGOS" {{ old('tipo') == 'JOGOS' ? 'selected' : '' }}>
-                    Jogos
-                </option>
+                                {{ $evento->nome }}
 
-                <option value="OFICINA" {{ old('tipo') == 'OFICINA' ? 'selected' : '' }}>
-                    Oficina
-                </option>
+                            </option>
 
-                <option value="RODA_DE_REGRESSOS" {{ old('tipo') == 'RODA_DE_REGRESSOS' ? 'selected' : '' }}>
-                    Roda de Regressos
-                </option>
+                        @endforeach
 
-                <option value="MINI_CURSO" {{ old('tipo') == 'MINI_CURSO' ? 'selected' : '' }}>
-                    Mini Curso
-                </option>
-            </select>
-        </div>
+                    </select>
 
-        <div>
-            <label>Resumo</label>
-            <input type="text" name="resumo" required>
-        </div>
+                </div>
 
-        <button type="submit">Salvar Atividade</button>
-    </form>
-    <a href="{{ route('atividades.index') }}">Voltar</a>
+                <div class="grupo-campo">
+
+                    <label class="rotulo-campo">
+                        Título
+                    </label>
+
+                    <input type="text" name="titulo" class="campo-input" value="{{ old('titulo') }}" required>
+
+                </div>
+
+                <div class="grupo-campo full-width">
+
+                    <label class="rotulo-campo">
+                        Descrição
+                    </label>
+
+                    <textarea name="descricao" class="campo-input area-texto" required>{{ old('descricao') }}</textarea>
+
+                </div>
+
+                <div class="grupo-campo">
+
+                    <label class="rotulo-campo">
+                        Data
+                    </label>
+
+                    <input type="date" name="data" class="campo-input" value="{{ old('data') }}" required>
+
+                </div>
+
+                <div class="grupo-campo">
+
+                    <label class="rotulo-campo">
+                        Local
+                    </label>
+
+                    <input type="text" name="local" class="campo-input" value="{{ old('local') }}" required>
+
+                </div>
+
+                <div class="grupo-campo">
+
+                    <label class="rotulo-campo">
+                        Hora Início
+                    </label>
+
+                    <input type="time" name="hora_inicio" class="campo-input" value="{{ old('hora_inicio') }}" required>
+
+                </div>
+
+                <div class="grupo-campo">
+
+                    <label class="rotulo-campo">
+                        Hora Fim
+                    </label>
+
+                    <input type="time" name="hora_fim" class="campo-input" value="{{ old('hora_fim') }}" required>
+
+                </div>
+
+                <div class="grupo-campo">
+
+                    <label class="rotulo-campo">
+                        Vagas
+                    </label>
+
+                    <input type="number" name="vagas" class="campo-input" value="{{ old('vagas') }}" required>
+
+                </div>
+
+                <div class="grupo-campo">
+
+                    <label class="rotulo-campo">
+                        Responsáveis
+                    </label>
+
+                    <input type="text" name="responsaveis" class="campo-input" value="{{ old('responsaveis') }}" required>
+
+                </div>
+
+                <div class="grupo-campo">
+
+                    <label class="rotulo-campo">
+                        Tipo
+                    </label>
+
+                    <select name="tipo" class="campo-input" required>
+
+                        <option value="">
+                            Selecione o tipo
+                        </option>
+
+                        <option value="PALESTRA" {{ old('tipo') == 'PALESTRA' ? 'selected' : '' }}>
+                            Palestra
+                        </option>
+
+                        <option value="JOGOS" {{ old('tipo') == 'JOGOS' ? 'selected' : '' }}>
+                            Jogos
+                        </option>
+
+                        <option value="OFICINA" {{ old('tipo') == 'OFICINA' ? 'selected' : '' }}>
+                            Oficina
+                        </option>
+
+                        <option value="RODA_DE_REGRESSOS" {{ old('tipo') == 'RODA_DE_REGRESSOS' ? 'selected' : '' }}>
+                            Roda de Regressos
+                        </option>
+
+                        <option value="MINI_CURSO" {{ old('tipo') == 'MINI_CURSO' ? 'selected' : '' }}>
+                            Mini Curso
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="grupo-campo full-width">
+
+                    <label class="rotulo-campo">
+                        Resumo
+                    </label>
+
+                    <input type="text" name="resumo" class="campo-input" value="{{ old('resumo') }}" required>
+
+                </div>
+
+            </div>
+
+            <div class="area-botoes">
+
+                <button type="submit" class="botao-principal">
+
+                    Salvar Atividade
+
+                </button>
+
+                <a href="{{ route('atividades.index') }}" class="botao-secundario">
+
+                    Voltar
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
 @endsection

@@ -3,106 +3,158 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eventos Acadêmicos</title>
+
+    <link rel="stylesheet" href="{{ asset('css/welcome.css') }}">
 </head>
 
 <body>
 
-    <h1>Eventos Acadêmicos</h1>
+    <header class="cabecalho-topo">
+        <div class="container">
 
-    <a href="{{ route('google.login') }}">
-        Entrar com Google
-    </a>
+            <h1 class="titulo-pagina">
+                Eventos Acadêmicos
+            </h1>
 
-    <a href="{{ route('login') }}">
-        Login Administrador
-    </a>
+            <div class="botoes-acao">
 
-    <hr>
+                <a href="{{ route('google.login') }}" class="botao-google-pequeno">
+                    Entrar com Google
+                </a>
 
-    @forelse($eventos as $evento)
+                <a href="{{ route('login') }}" class="botao-admin">
+                    Login Administrador
+                </a>
 
-        <h2>{{ $evento->nome }} ({{ $evento->sigla }})</h2>
+            </div>
 
-        <p>
-            <strong>Local:</strong>
-            {{ $evento->local }}
-        </p>
+        </div>
+    </header>
 
-        <p>
-            <strong>Período:</strong>
-            {{ date('d/m/Y', strtotime($evento->data_inicio)) }}
-            até
-            {{ date('d/m/Y', strtotime($evento->data_fim)) }}
-        </p>
+    <main class="container container-eventos">
 
-        <p>{{ $evento->descricao }}</p>
+        @forelse($eventos as $evento)
 
-        @php
-            $atividadesPorDia = $evento->atividades->groupBy('data');
-        @endphp
+            <div class="cartao-evento">
 
-        @foreach($atividadesPorDia as $data => $atividades)
+                <h2 class="titulo-evento">
+                    {{ $evento->nome }}
+                    <span class="sigla-evento">
+                        ({{ $evento->sigla }})
+                    </span>
+                </h2>
 
-            <h4>
-                Dia {{ date('d/m/Y', strtotime($data)) }}
-            </h4>
+                <div class="info-evento">
 
-            <table border="1" cellpadding="5">
-                <tr>
-                    <th>Título</th>
-                    <th>Horário</th>
-                    <th>Local</th>
-                    <th>Vagas</th>
-                    <th>Ação</th>
-                </tr>
+                    <p>
+                        <strong>Local:</strong>
+                        {{ $evento->local }}
+                    </p>
 
-                @foreach($atividades as $atividade)
+                    <p>
+                        <strong>Período:</strong>
 
-                    <tr>
-                        <td>{{ $atividade->titulo }}</td>
+                        {{ date('d/m/Y', strtotime($evento->data_inicio)) }}
+                        até
+                        {{ date('d/m/Y', strtotime($evento->data_fim)) }}
+                    </p>
 
-                        <td>
-                            {{ $atividade->hora_inicio }}
-                            -
-                            {{ $atividade->hora_fim }}
-                        </td>
+                    <p class="descricao-evento">
+                        {{ $evento->descricao }}
+                    </p>
 
-                        <td>{{ $atividade->local }}</td>
+                </div>
 
-                        <td>{{ $atividade->vagas }}</td>
+                @php
+                    $atividadesPorDia = $evento->atividades->groupBy('data');
+                @endphp
 
-                        <td>
+                @foreach($atividadesPorDia as $data => $atividades)
 
-                            @if($atividade->vagas > 0)
+                    <h3 class="data-atividade">
+                        Dia {{ date('d/m/Y', strtotime($data)) }}
+                    </h3>
 
-                                <a href="{{ route('google.login') }}">
-                                    Inscrever-se
-                                </a>
+                    <div class="tabela-responsiva">
 
-                            @else
+                        <table class="tabela-estilizada">
 
-                                Lotado
+                            <thead>
 
-                            @endif
+                                <tr>
+                                    <th>Título</th>
+                                    <th>Horário</th>
+                                    <th>Local</th>
+                                    <th>Vagas</th>
+                                    <th class="coluna-acao">Ação</th>
+                                </tr>
 
-                        </td>
+                            </thead>
 
-                    </tr>
+                            <tbody>
+
+                                @foreach($atividades as $atividade)
+
+                                    <tr>
+
+                                        <td>{{ $atividade->titulo }}</td>
+
+                                        <td>
+                                            {{ $atividade->hora_inicio }}
+                                            -
+                                            {{ $atividade->hora_fim }}
+                                        </td>
+
+                                        <td>{{ $atividade->local }}</td>
+
+                                        <td>{{ $atividade->vagas }}</td>
+
+                                        <td class="coluna-acao">
+
+                                            @if($atividade->vagas > 0)
+
+                                                <a href="{{ route('google.login') }}"
+                                                    class="botao-inscrever">
+
+                                                    Inscrever-se
+
+                                                </a>
+
+                                            @else
+
+                                                <span class="badge-lotado">
+                                                    Lotado
+                                                </span>
+
+                                            @endif
+
+                                        </td>
+
+                                    </tr>
+
+                                @endforeach
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
 
                 @endforeach
 
-            </table>
+            </div>
 
-        @endforeach
+        @empty
 
-        <hr>
+            <p class="sem-eventos">
+                Nenhum evento disponível.
+            </p>
 
-    @empty
+        @endforelse
 
-        <p>Nenhum evento disponível.</p>
-
-    @endforelse
+    </main>
 
 </body>
 
