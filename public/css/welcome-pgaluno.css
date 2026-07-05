@@ -23,9 +23,19 @@
     --texto-secundario: #64748b;
 }
 
+main.container {
+    flex: 1;
+}
+
 html,
 body {
-    min-height: 100%;
+    height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     font-family: "Inter", sans-serif;
     background: var(--fundo-claro);
     color: var(--texto-principal);
@@ -123,12 +133,10 @@ body {
     left: 0;
     width: 5px;
     height: 100%;
-    background: linear-gradient(
-        to bottom,
-        var(--azul-mais-escuro),
-        var(--azul-principal),
-        var(--azul-claro)
-    );
+    background: linear-gradient(to bottom,
+            var(--azul-mais-escuro),
+            var(--azul-principal),
+            var(--azul-claro));
 }
 
 .titulo-evento {
@@ -205,12 +213,11 @@ body {
 }
 
 .tabela-estilizada tbody tr:nth-of-type(even) {
-    background-color: rgba(
-        203,
-        224,
-        218,
-        0.15
-    ); /* Fundo clarinho pra intercalar */
+    background-color: rgba(203,
+            224,
+            218,
+            0.15);
+    /* Fundo clarinho pra intercalar */
 }
 
 .tabela-estilizada tbody tr:last-child td {
@@ -218,7 +225,8 @@ body {
 }
 
 .tabela-estilizada tbody tr:hover {
-    background-color: rgba(75, 179, 253, 0.05); /* Efeito hover na linha */
+    background-color: rgba(75, 179, 253, 0.05);
+    /* Efeito hover na linha */
 }
 
 .coluna-acao {
@@ -257,6 +265,7 @@ body {
     color: var(--texto-secundario);
     font-weight: 500;
 }
+
 /* ===== Elementos de Interface Minimalistas ===== */
 
 .logo-sistema {
@@ -412,6 +421,7 @@ body {
     margin-top: 80px;
     border-top: 1px solid var(--cor-borda);
 }
+
 /* ===== Grid de Indicadores (Dashboard e Área do Aluno) ===== */
 .metrics-grid {
     display: grid;

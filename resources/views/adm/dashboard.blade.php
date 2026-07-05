@@ -3,88 +3,148 @@
 @section('title', 'Dashboard Administrativa')
 
 @section('content')
-<link rel="stylesheet" href="{{ asset('css/dashboardadmin.css') }}">
 
-<div class="dashboard-wrapper">
+    <div class="container-fluid py-4">
 
-    <header class="dashboard-header">
-        <h1>Visão Geral</h1>
-        <p>Acompanhe as métricas e indicadores do sistema em tempo real.</p>
-    </header>
-
-    <div class="metrics-grid">
-
-        <div class="metric-card">
-            <span class="metric-label">Alunos Cadastrados</span>
-            <span class="metric-value">{{ $totalAlunos ?? 0 }}</span>
+        <div class="border-bottom border-success border-opacity-25 pb-3 mb-4">
+            <h2 class="fw-bold mb-1">
+                <i class="bi bi-speedometer2 text-success"></i>
+                Dashboard
+            </h2>
+            <p class="text-muted mb-0">
+                Acompanhe as métricas e indicadores do sistema.
+            </p>
         </div>
+        <div class="row g-4 mb-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="card border-success border-opacity-25 shadow-sm h-100">
+                    <div class="card-body">
+                        <small class="text-muted">
+                            Alunos Cadastrados
+                        </small>
+                        <h2 class="fw-bold mt-2 mb-0 text-success">
+                            {{ $totalAlunos ?? 0 }}
+                        </h2>
 
-        <div class="metric-card">
-            <span class="metric-label">Eventos Criados</span>
-            <span class="metric-value">{{ $totalEventos ?? 0 }}</span>
-        </div>
-
-        <div class="metric-card">
-            <span class="metric-label">Total de Inscrições</span>
-            <span class="metric-value">{{ $totalInscricoes ?? 0 }}</span>
-        </div>
-
-        <div class="metric-card">
-            <span class="metric-label">Atividades Ativas</span>
-            <span class="metric-value">{{ $totalAtividades ?? 0 }}</span>
-        </div>
-
-    </div>
-
-    <div class="dashboard-sections-grid">
-
-        <div class="dashboard-section-card">
-            <div class="section-card-header">
-                <h2>Próximos Eventos</h2>
-                <a href="{{ route('evento.index') }}" class="link-ver-todos">Ver todos</a>
-            </div>
-
-            <div class="list-wrapper">
-                @forelse($proximosEventos as $evento)
-                <div class="list-item">
-                    <div class="item-details">
-                        <strong>{{ $evento->nome }}</strong>
-                        <span>📍 {{ $evento->local }}</span>
-                    </div>
-                    <div class="item-badge">
-                        {{ date('d/m/Y', strtotime($evento->data_inicio)) }}
                     </div>
                 </div>
-                @empty
-                <p class="empty-list-text">Nenhum evento agendado para os próximos dias.</p>
-                @endforelse
             </div>
-        </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card border-success border-opacity-25 shadow-sm h-100">
+                    <div class="card-body">
 
-        <div class="dashboard-section-card">
-            <div class="section-card-header">
-                <h2>Últimos Alunos Inscritos</h2>
-                <a href="{{ route('aluno.index') }}" class="link-ver-todos">Ver todos</a>
-            </div>
+                        <small class="text-muted">
+                            Eventos Criados
+                        </small>
 
-            <div class="list-wrapper">
-                @forelse($ultimosAlunos as $aluno)
-                <div class="list-item">
-                    <div class="item-details">
-                        <strong>{{ $aluno->nome }}</strong>
-                        <span>✉️ {{ $aluno->email }}</span>
-                    </div>
-                    <div class="item-date">
-                        Inscrito em {{ $aluno->created_at->format('d/m/H:i') }}
+                        <h2 class="fw-bold mt-2 mb-0 text-primary">
+                            {{ $totalEventos ?? 0 }}
+                        </h2>
+
                     </div>
                 </div>
-                @empty
-                <p class="empty-list-text">Nenhum aluno cadastrado recentemente.</p>
-                @endforelse
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card border-success border-opacity-25 shadow-sm h-100">
+                    <div class="card-body">
+
+                        <small class="text-muted">
+                            Total de Inscrições
+                        </small>
+
+                        <h2 class="fw-bold mt-2 mb-0 text-warning">
+                            {{ $totalInscricoes ?? 0 }}
+                        </h2>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card border-success border-opacity-25 shadow-sm h-100">
+                    <div class="card-body">
+                        <small class="text-muted">
+                            Atividades Ativas
+                        </small>
+                        <h2 class="fw-bold mt-2 mb-0 text-danger">
+                            {{ $totalAtividades ?? 0 }}
+                        </h2>
+                    </div>
+                </div>
             </div>
         </div>
-
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div class="card border-success border-opacity-25 shadow-sm h-100">
+                    <div
+                        class="card-header bg-white d-flex justify-content-between align-items-center border-success border-opacity-25">
+                        <h5 class="mb-0 fw-bold">
+                            <i class="bi bi-calendar-event text-success"></i>
+                            Próximos Eventos
+                        </h5>
+                        <a href="{{ route('evento.index') }}" class="btn btn-sm btn-outline-success">
+                            Ver todos
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        @forelse($proximosEventos as $evento)
+                            <div class="d-flex justify-content-between align-items-center border-bottom py-3">
+                                <div>
+                                    <div class="fw-semibold">
+                                        {{ $evento->nome }}
+                                    </div>
+                                    <small class="text-muted">
+                                        <i class="bi bi-geo-alt"></i>
+                                        {{ $evento->local }}
+                                    </small>
+                                </div>
+                                <span class="badge bg-success-subtle text-success border border-success-subtle">
+                                    {{ date('d/m/Y', strtotime($evento->data_inicio)) }}
+                                </span>
+                            </div>
+                        @empty
+                            <div class="text-center text-muted py-5">
+                                Nenhum evento encontrado.
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card border-success border-opacity-25 shadow-sm h-100">
+                    <div
+                        class="card-header bg-white d-flex justify-content-between align-items-center border-success border-opacity-25">
+                        <h5 class="mb-0 fw-bold">
+                            <i class="bi bi-people text-success"></i>
+                            Últimos Alunos
+                        </h5>
+                        <a href="{{ route('aluno.index') }}" class="btn btn-sm btn-outline-success">
+                            Ver todos
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        @forelse($ultimosAlunos as $aluno)
+                            <div class="d-flex justify-content-between align-items-center border-bottom py-3">
+                                <div>
+                                    <div class="fw-semibold">
+                                        {{ $aluno->nome }}
+                                    </div>
+                                    <small class="text-muted">
+                                        {{ $aluno->email }}
+                                    </small>
+                                </div>
+                                <small class="text-muted">
+                                    {{ $aluno->created_at->format('d/m H:i') }}
+                                </small>
+                            </div>
+                        @empty
+                            <div class="text-center text-muted py-5">
+                                Nenhum aluno cadastrado.
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-</div>
 @endsection
