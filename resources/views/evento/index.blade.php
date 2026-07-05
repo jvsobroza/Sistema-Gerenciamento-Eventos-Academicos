@@ -3,55 +3,68 @@
 @section('title', 'Eventos')
 
 @section('content')
-    <h1>Lista de Eventos</h1>
+    <link rel="stylesheet" href="{{ asset('css/indexatividade.css') }}">
 
-    @if(session('success'))
-        <p>{{ session('success') }}</p>
-    @endif
+    <div class="cartao-lista">
 
-    @if(session('error'))
-        <p>
-            {{ session('error') }}
-        </p>
-    @endif
+        <div class="cabecalho-lista">
+            <h1 class="titulo-pagina">Lista de Eventos</h1>
+            <a href="{{ route('evento.create') }}" class="botao-principal">Criar Evento</a>
+        </div>
 
-    <a href="{{ route('evento.create') }}">Criar Evento</a>
+        @if(session('success'))
+            <div class="alerta-sucesso">
+                {{ session('success') }}
+            </div>
+        @endif
 
-    <table border="1" cellpadding="8" cellspacing="0" style="margin-top: 15px; width: 100%;">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Sigla</th>
-                <th>Local</th>
-                <th>Data Início</th>
-                <th>Data Fim</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
+        @if(session('error'))
+            <div class="alerta-erro">
+                {{ session('error') }}
+            </div>
+        @endif
 
-        <tbody>
-            @foreach($eventos as $evento)
-                <tr>
-                    <td>{{ $evento->nome }}</td>
-                    <td>{{ $evento->sigla }}</td>
-                    <td>{{ $evento->local }}</td>
-                    <td>{{ $evento->data_inicio }}</td>
-                    <td>{{ $evento->data_fim }}</td>
+        <div class="tabela-responsiva">
+            <table class="tabela-estilizada">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Sigla</th>
+                        <th>Local</th>
+                        <th>Data Início</th>
+                        <th>Data Fim</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
 
-                    <td>
-                        <a href="{{ route('evento.edit', $evento->id) }}">Editar</a>
+                <tbody>
+                    @foreach($eventos as $evento)
+                        <tr>
+                            <td>{{ $evento->nome }}</td>
+                            <td>{{ $evento->sigla }}</td>
+                            <td>{{ $evento->local }}</td>
+                            <td>{{ date('d/m/Y', strtotime($evento->data_inicio)) }}</td>
+                            <td>{{ date('d/m/Y', strtotime($evento->data_fim)) }}</td>
 
-                        <form action="{{ route('evento.destroy', $evento->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
+                            <td>
+                                <div class="grupo-botoes">
+                                    <a href="{{ route('evento.edit', $evento->id) }}" class="botao-editar">Editar</a>
 
-                            <button type="submit" onclick="return confirm('Deseja excluir este evento?')">
-                                Excluir
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+                                    <form action="{{ route('evento.destroy', $evento->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="submit" class="botao-excluir"
+                                            onclick="return confirm('Deseja excluir este evento?')">
+                                            Excluir
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
 @endsection

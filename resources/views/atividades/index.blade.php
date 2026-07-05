@@ -3,6 +3,8 @@
 @section('title', 'Atividades')
 
 @section('content')
+    <link rel="stylesheet" href="{{ asset('css/indexatividade.css') }}">
+
     <div class="cartao-lista">
 
         <div class="cabecalho-lista">
