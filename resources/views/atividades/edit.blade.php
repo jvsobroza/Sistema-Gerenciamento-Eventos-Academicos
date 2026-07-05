@@ -3,6 +3,8 @@
 @section('title', 'Editar Atividade')
 
 @section('content')
+    <link rel="stylesheet" href="{{ asset('css/criaratividade.css') }}">
+
     <div class="cartao-formulario">
 
         <h1 class="titulo-pagina">
