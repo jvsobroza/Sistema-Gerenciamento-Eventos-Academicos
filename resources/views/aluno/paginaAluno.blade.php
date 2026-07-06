@@ -11,10 +11,15 @@
 <body>
 
     <header class="cabecalho-topo">
-        <div class="container">
-            <h1 class="logo-sistema">Área do <span>Aluno</span></h1>
+        <div class="container header-wrapper">
 
-            <nav class="botoes-acao">
+            <h1 class="logo-sistema">Área do <span>Aluno</span></h1>
+            <button class="menu-toggle" id="menuToggle">
+                ☰
+            </button>
+
+            <nav class="botoes-acao" id="menuNav">
+
                 @if(auth()->user()->tipo == 1)
                     <a href="{{ route('adm.dashboard') }}" class="link-verificar">Voltar ao Painel</a>
                 @endif
@@ -23,6 +28,7 @@
                     <a href="{{ route('aluno.edit', auth()->user()->id) }}" class="botao-google-pequeno">
                         Editar Conta
                     </a>
+
                     <form action="{{ route('logout') }}" method="POST" style="display:inline;">
                         @csrf
                         <button type="submit" class="botao-admin"
@@ -31,7 +37,9 @@
                         </button>
                     </form>
                 @endif
+
             </nav>
+
         </div>
     </header>
 
@@ -235,17 +243,17 @@
                             <tbody>
                                 @foreach($atividades as $atividade)
                                     <tr>
-                                        <td><strong>{{ $atividade->titulo }}</strong></td>
-                                        <td>{{ $atividade->hora_inicio }} - {{ $atividade->hora_fim }}</td>
-                                        <td>{{ $atividade->local }}</td>
-                                        <td>{{ $atividade->responsaveis }}</td>
-                                        <td>{{ $atividade->vagas }}</td>
-                                        <td><span class="item-badge"
+                                        <td data-label="Título"><strong>{{ $atividade->titulo }}</strong></td>
+                                        <td data-label="Horário">{{ $atividade->hora_inicio }} - {{ $atividade->hora_fim }}</td>
+                                        <td data-label="Local">{{ $atividade->local }}</td>
+                                        <td data-label="Responsaveis">{{ $atividade->responsaveis }}</td>
+                                        <td data-label="Vagas">{{ $atividade->vagas }}</td>
+                                        <td data-label="Tipo"> <span class="item-badge"
                                                 style="background-color: var(--fundo-claro); color: var(--azul-mais-escuro);">{{ $atividade->tipo }}</span>
                                         </td>
 
                                         @if(auth()->user()->tipo == 2)
-                                            <td class="coluna-acao">
+                                            <td data-label="Ação" class="coluna-acao">
                                                 @if($atividade->vagas > 0)
                                                     <form action="{{ route('inscricao.store') }}" method="POST">
                                                         @csrf
@@ -283,7 +291,14 @@
                 Desenvolvimento de Sistemas.</p>
         </div>
     </footer>
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const menuNav = document.getElementById('menuNav');
 
+        menuToggle.addEventListener('click', () => {
+            menuNav.classList.toggle('active');
+        });
+    </script>
 </body>
 
 </html>

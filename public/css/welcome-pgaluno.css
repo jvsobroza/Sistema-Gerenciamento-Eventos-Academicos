@@ -48,7 +48,6 @@ body {
     padding: 0 20px;
 }
 
-/* ===== Cabeçalho ===== */
 .cabecalho-topo {
     background-color: #fff;
     border-bottom: 1px solid var(--cor-borda);
@@ -76,7 +75,6 @@ body {
     gap: 10px;
 }
 
-/* ===== Botões do Cabeçalho ===== */
 .botao-google-pequeno,
 .botao-admin {
     padding: 10px 16px;
@@ -110,7 +108,6 @@ body {
     border-color: var(--azul-escuro);
 }
 
-/* ===== Cartões de Eventos ===== */
 .container-eventos {
     padding-bottom: 60px;
 }
@@ -174,7 +171,6 @@ body {
     line-height: 1.5;
 }
 
-/* ===== Tabela de Atividades ===== */
 .data-atividade {
     font-family: "SN Pro", sans-serif;
     font-size: 18px;
@@ -217,7 +213,6 @@ body {
             224,
             218,
             0.15);
-    /* Fundo clarinho pra intercalar */
 }
 
 .tabela-estilizada tbody tr:last-child td {
@@ -226,14 +221,12 @@ body {
 
 .tabela-estilizada tbody tr:hover {
     background-color: rgba(75, 179, 253, 0.05);
-    /* Efeito hover na linha */
 }
 
 .coluna-acao {
     text-align: center !important;
 }
 
-/* ===== Botão da Tabela ===== */
 .botao-inscrever {
     display: inline-block;
     padding: 6px 12px;
@@ -266,8 +259,6 @@ body {
     font-weight: 500;
 }
 
-/* ===== Elementos de Interface Minimalistas ===== */
-
 .logo-sistema {
     font-family: "SN Pro", sans-serif;
     color: var(--azul-mais-escuro);
@@ -295,7 +286,6 @@ body {
     color: var(--azul-mais-escuro);
 }
 
-/* Seção Hero - Fundo Limpo e Foco em Tipografia */
 .hero-section {
     background-color: var(--azul-mais-escuro);
     color: #fff;
@@ -361,7 +351,6 @@ body {
     background: rgba(255, 255, 255, 0.05);
 }
 
-/* Grid de Recursos Sem Elementos Gráficos Excessivos */
 .recursos-sistema {
     margin-bottom: 60px;
 }
@@ -394,7 +383,6 @@ body {
     line-height: 1.5;
 }
 
-/* Alinhamento de Títulos e Estados Vazios */
 .secao-titulo {
     font-family: "SN Pro", sans-serif;
     font-size: 20px;
@@ -411,7 +399,6 @@ body {
     text-align: center;
 }
 
-/* Rodapé Sóbrio */
 .rodape-sistema {
     background: #fff;
     color: var(--texto-secundario);
@@ -422,7 +409,6 @@ body {
     border-top: 1px solid var(--cor-borda);
 }
 
-/* ===== Grid de Indicadores (Dashboard e Área do Aluno) ===== */
 .metrics-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -458,8 +444,6 @@ body {
     color: var(--azul-mais-escuro);
     line-height: 1;
 }
-
-/* Ajuste sutil para o cabeçalho de saudações */
 .dashboard-header h1 {
     font-family: "SN Pro", sans-serif;
     color: var(--azul-mais-escuro);
@@ -471,4 +455,110 @@ body {
 .dashboard-header p {
     font-size: 14px;
     color: var(--texto-secundario);
+}
+
+.menu-toggle {
+    display: none;
+    font-size: 26px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--azul-mais-escuro);
+}
+
+@media (max-width: 768px) {
+
+    .header-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .botoes-acao {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: #fff;
+        padding: 15px;
+        border-top: 1px solid var(--cor-borda);
+        margin-top: 10px;
+    }
+
+    .botoes-acao.active {
+        display: flex;
+    }
+
+    .botoes-acao a {
+        width: 100%;
+        text-align: center;
+    }
+
+    .tabela-responsiva {
+        overflow: visible;
+        border: none;
+    }
+
+    .tabela-estilizada,
+    .tabela-estilizada thead,
+    .tabela-estilizada tbody,
+    .tabela-estilizada th,
+    .tabela-estilizada td,
+    .tabela-estilizada tr {
+        display: block;
+        width: 100%;
+    }
+
+    .tabela-estilizada thead {
+        display: none;
+    }
+
+    .tabela-estilizada tr {
+        background: #fff;
+        border: 1px solid var(--cor-borda);
+        border-radius: 10px;
+        margin-bottom: 18px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .tabela-estilizada td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--cor-borda);
+        text-align: right;
+    }
+
+    .tabela-estilizada td:last-child {
+        border-bottom: none;
+    }
+
+    .tabela-estilizada td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        color: var(--azul-mais-escuro);
+        text-align: left;
+    }
+
+    .coluna-acao {
+        justify-content: center !important;
+        text-align: center;
+    }
+
+    .coluna-acao::before {
+        display: none;
+    }
+
+    .botao-inscrever,
+    .badge-lotado {
+        width: 100%;
+        text-align: center;
+    }
 }

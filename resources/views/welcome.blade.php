@@ -12,13 +12,16 @@
 <body>
 
     <header class="cabecalho-topo">
-        <div class="container">
+        <div class="container header-wrapper">
 
             <h1 class="logo-sistema">
                 Se<span>TEIC</span>
             </h1>
+            <button class="menu-toggle" id="menuToggle">
+                ☰
+            </button>
 
-            <nav class="botoes-acao">
+            <nav class="botoes-acao" id="menuNav">
                 <a href="{{ route('certificado_verifica') }}" class="link-verificar">
                     Validar Certificado
                 </a>
@@ -37,7 +40,8 @@
         <div class="container">
             <h2>Plataforma Integrada de Eventos Acadêmicos</h2>
             <p>
-                Inscrições em atividades, controle de presença e emissão de certificados digitais autenticados em um único ambiente institucional.
+                Inscrições em atividades, controle de presença e emissão de certificados digitais autenticados em um
+                único ambiente institucional.
             </p>
             <div class="hero-ctas">
                 <a href="#eventos" class="botao-principal">Eventos Disponíveis</a>
@@ -124,17 +128,28 @@
                             <tbody>
                                 @foreach($atividades as $atividade)
                                     <tr>
-                                        <td><strong>{{ $atividade->titulo }}</strong></td>
-                                        <td>{{ $atividade->hora_inicio }} - {{ $atividade->hora_fim }}</td>
-                                        <td>{{ $atividade->local }}</td>
-                                        <td>{{ $atividade->vagas }}</td>
-                                        <td class="coluna-acao">
+                                        <td data-label="Título">
+                                            <strong>{{ $atividade->titulo }}</strong>
+                                        </td>
+                                        <td data-label="Horário">
+                                            {{ $atividade->hora_inicio }} - {{ $atividade->hora_fim }}
+                                        </td>
+                                        <td data-label="Local">
+                                            {{ $atividade->local }}
+                                        </td>
+                                        <td data-label="Vagas">
+                                            {{ $atividade->vagas }}
+                                        </td>
+                                        <td data-label="Ação" class="coluna-acao">
                                             @if($atividade->vagas > 0)
+
                                                 <a href="{{ route('google.login') }}" class="botao-inscrever">
                                                     Inscrever-se
                                                 </a>
                                             @else
-                                                <span class="badge-lotado">Lotado</span>
+                                                <span class="badge-lotado">
+                                                    Lotado
+                                                </span>
                                             @endif
                                         </td>
                                     </tr>
@@ -163,9 +178,19 @@
 
     <footer class="rodape-sistema">
         <div class="container">
-            <p>&copy; {{ date('Y') }} Sistema de Eventos Acadêmicos. Todos os direitos reservados - Análise e Desenvolvimento de Sistemas.</p>
+            <p>&copy; {{ date('Y') }} Sistema de Eventos Acadêmicos. Todos os direitos reservados - Análise e
+                Desenvolvimento de Sistemas.</p>
         </div>
     </footer>
 
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const menuNav = document.getElementById('menuNav');
+
+        menuToggle.addEventListener('click', () => {
+            menuNav.classList.toggle('active');
+        });
+    </script>
 </body>
+
 </html>
