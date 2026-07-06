@@ -3,77 +3,80 @@
 @section('title', 'Lançar Presença')
 
 @section('content')
-<div class="container py-4">
 
-    <div class="mb-4">
-        <h1 class="fw-bold mb-1">{{ $atividade->titulo }}</h1>
-        <p class="text-muted mb-0">Gerencie a presença dos participantes inscritos.</p>
-    </div>
+    <link rel="stylesheet" href="{{ asset('css/showpresenca.css') }}">
 
-    <div class="card shadow-sm rounded-4 border-0 p-4">
-        <table class="table align-middle mb-0">
-            <thead>
-                <tr>
-                    <th>Participante</th>
-                    <th class="text-center">Ação</th>
-                </tr>
-            </thead>
+    <div class="cartao-lista">
 
-            <tbody>
-                @forelse($atividade->inscricoes as $inscricao)
+        <div class="cabecalho-lista">
 
-                    @php
-                        $presenca = $presencas[$inscricao->id_usuario] ?? null;
-                    @endphp
+            <div>
+                <h1 class="titulo-pagina">
+                    {{ $atividade->titulo }}
+                </h1>
+            </div>
 
+            <a href="{{ route('presenca.index') }}" class="botao-secundario">
+                Voltar
+            </a>
+
+        </div>
+        <div class="tabela-responsiva">
+            <table class="tabela-estilizada">
+                <thead>
                     <tr>
-                        <td>{{ $inscricao->usuario->nome }}</td>
-
-                        <td class="text-center">
-                            @if($presenca && $presenca->presente == 1)
-
-                                <form action="{{ route('presenca.update', $presenca->id) }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">
-                                        Desmarcar Presença
-                                    </button>
-                                </form>
-
-                            @else
-
-                                <form action="{{ route('presenca.store') }}" method="POST">
-                                    @csrf
-
-                                    <input type="hidden" name="id_usuario" value="{{ $inscricao->id_usuario }}">
-                                    <input type="hidden" name="id_atividade" value="{{ $atividade->id }}">
-
-                                    <button type="submit" class="btn btn-sm btn-success">
-                                        Marcar Presença
-                                    </button>
-                                </form>
-
-                            @endif
-                        </td>
+                        <th>Participante</th>
+                        <th class="coluna-acoes">
+                            Situação
+                        </th>
                     </tr>
+                </thead>
+                <tbody>
+                    @forelse($atividade->inscricoes as $inscricao)
+                        @php
+                            $presenca = $presencas[$inscricao->id_usuario] ?? null;
+                        @endphp
+                        <tr>
+                            <td>
+                                <strong>{{ $inscricao->usuario->nome }}</strong>
+                            </td>
+                            <td class="coluna-acoes">
+                                @if($presenca && $presenca->presente == 1)
+                                    <form action="{{ route('presenca.update', $presenca->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <button class="botao-ausente">
+                                            Desmarcar Presença
 
-                @empty
-                    <tr>
-                        <td colspan="2" class="text-center text-muted py-4">
-                            Nenhum participante inscrito.
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+                                        </button>
+                                    </form>
+                                @else
+                                    <form action="{{ route('presenca.store') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="id_usuario" value="{{ $inscricao->id_usuario }}">
+                                        <input type="hidden" name="id_atividade" value="{{ $atividade->id }}">
+                                        <button class="botao-presenca">
+                                            Marcar Presença
+                                        </button>
+                                    </form>
+                                @endif
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="2" class="texto-centro">
+                                <i class="bi bi-person-x"></i>
+                                <p>
+                                    Nenhum participante inscrito.
+                                </p>
+
+                            </td>
+
+                        </tr>
+
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
-
-    <div class="mt-3">
-        <a href="{{ route('presenca.index') }}" class="btn btn-outline-secondary">
-            Voltar
-        </a>
-    </div>
-
-</div>
 @endsection

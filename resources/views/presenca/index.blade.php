@@ -3,90 +3,98 @@
 @section('title', 'Lançamento de Presença')
 
 @section('content')
-<div class="container py-4">
 
-    <div class="mb-4">
-        <h1 class="fw-bold mb-1">Lançamento de Presença</h1>
-        <p class="text-muted mb-0">Selecione uma atividade para registrar ou imprimir presenças.</p>
-    </div>
+    <link rel="stylesheet" href="{{ asset('css/inscricaoindex.css') }}">
 
-    @forelse($eventos as $evento)
+    <div class="cartao-lista">
+        <div class="cabecalho-lista">
+            <div>
+                <h1 class="titulo-pagina">
+                    Lançamento de Presença
+                </h1>
+            </div>
+        </div>
 
-        <div class="card shadow-sm rounded-4 border-0 p-4 mb-4">
+        @forelse($eventos as $evento)
+            <div class="bloco-evento">
+                <div class="cabecalho-evento">
+                    <h2 class="titulo-evento">
+                        {{ $evento->nome }}
+                    </h2>
+                    <p class="periodo-evento">
+                        {{ date('d/m/Y', strtotime($evento->data_inicio)) }}
+                        até
+                        {{ date('d/m/Y', strtotime($evento->data_fim)) }}
+                    </p>
+                </div>
+                <div class="tabela-responsiva">
+                    <table class="tabela-estilizada">
+                        <thead>
+                            <tr>
+                                <th>Atividade</th>
+                                <th>Data</th>
+                                <th>Horário</th>
+                                <th>Local</th>
+                                <th>Tipo</th>
+                                <th class="coluna-acoes">
+                                    Ações
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($evento->atividades as $atividade)
+                                <tr>
+                                    <td>
+                                        <strong>{{ $atividade->titulo }}</strong>
+                                    </td>
+                                    <td>
+                                        {{ date('d/m/Y', strtotime($atividade->data)) }}
+                                    </td>
+                                    <td>
+                                        {{ $atividade->hora_inicio }}
+                                        às
+                                        {{ $atividade->hora_fim }}
 
-            <div class="mb-3">
-                <h3 class="fw-bold mb-2">{{ $evento->nome }}</h3>
+                                    </td>
+                                    <td>
+                                        {{ $atividade->local }}
+                                    </td>
+                                    <td>
+                                        <span class="badge-tipo">
+                                            {{ $atividade->tipo }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="grupo-botoes">
+                                            <a href="{{ route('presenca.show', $atividade->id) }}" class="botao-principal-tabela">
+                                                Lançar
+                                            </a>
 
-                <p class="text-muted mb-0">
-                    <strong>Período:</strong>
-                    {{ \Carbon\Carbon::parse($evento->data_inicio)->format('d/m/Y') }}
-                    até
-                    {{ \Carbon\Carbon::parse($evento->data_fim)->format('d/m/Y') }}
+                                            <a href="{{ route('presenca.pdf', $atividade->id) }}" class="botao-secundario-tabela">
+                                                Imprimir
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="texto-centro">
+                                        <p>
+                                            Nenhuma atividade cadastrada.
+                                        </p>
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        @empty
+            <div class="mensagem-vazia">
+                <p>
+                    Nenhum evento cadastrado.
                 </p>
             </div>
-
-            <table class="table align-middle mb-0">
-                <thead>
-                    <tr>
-                        <th>Atividade</th>
-                        <th>Data</th>
-                        <th>Horário</th>
-                        <th>Local</th>
-                        <th>Tipo</th>
-                        <th class="text-center">Ações</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    @forelse($evento->atividades as $atividade)
-                        <tr>
-                            <td>{{ $atividade->titulo }}</td>
-
-                            <td>
-                                {{ \Carbon\Carbon::parse($atividade->data)->format('d/m/Y') }}
-                            </td>
-
-                            <td>
-                                {{ $atividade->hora_inicio }} às {{ $atividade->hora_fim }}
-                            </td>
-
-                            <td>{{ $atividade->local }}</td>
-
-                            <td>{{ $atividade->tipo }}</td>
-
-                            <td>
-                                <div class="d-flex gap-2 justify-content-center">
-                                    <a href="{{ route('presenca.show', $atividade->id) }}"
-                                       class="btn btn-sm btn-primary">
-                                        Lançar
-                                    </a>
-
-                                    <a href="{{ route('presenca.pdf', $atividade->id) }}"
-                                       class="btn btn-sm btn-outline-secondary">
-                                        Imprimir
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="6" class="text-center text-muted py-4">
-                                Nenhuma atividade cadastrada.
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-
-        </div>
-
-    @empty
-        <div class="card shadow-sm rounded-4 border-0 p-4">
-            <p class="text-muted mb-0 text-center">
-                Nenhum evento cadastrado.
-            </p>
-        </div>
-    @endforelse
-
-</div>
+        @endforelse
+    </div>
 @endsection

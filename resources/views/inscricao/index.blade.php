@@ -3,87 +3,87 @@
 @section('title', 'Inscrições')
 
 @section('content')
-<div class="container py-4">
+    <link rel="stylesheet" href="{{ asset('css/inscricaoindex.css') }}">
+    <div class="cartao-lista">
+        <div class="cabecalho-lista">
+            <div>
+                <h1 class="titulo-pagina">
+                    Inscrições
+                </h1>
+            </div>
+        </div>
+        @forelse($eventos as $evento)
+            <div class="bloco-evento">
+                <div class="cabecalho-evento">
+                    <h2 class="titulo-evento">
+                        {{ $evento->nome }}
+                        <span class="sigla-evento">
+                            ({{ $evento->sigla }})
+                        </span>
+                    </h2>
+                    <p class="periodo-evento">
+                        {{ date('d/m/Y', strtotime($evento->data_inicio)) }}
+                        até
+                        {{ date('d/m/Y', strtotime($evento->data_fim)) }}
+                    </p>
+                </div>
+                @forelse($evento->atividades as $atividade)
+                    <div class="bloco-atividade">
+                        <h3 class="titulo-atividade">
+                            <i class="bi bi-calendar-event"></i>
+                            {{ $atividade->titulo }}
+                        </h3>
+                        <div class="tabela-responsiva">
+                            <table class="tabela-estilizada">
+                                <thead>
+                                    <tr>
+                                        <th>Aluno</th>
+                                        <th>E-mail</th>
+                                        <th>Data da Inscrição</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse($atividade->inscricoes as $inscricao)
+                                        <tr>
+                                            <td>
+                                                {{ $inscricao->usuario->nome }}
+                                            </td>
+                                            <td>
+                                                {{ $inscricao->usuario->email }}
 
-    <div class="mb-4">
-        <h1 class="fw-bold mb-1">Lista de Inscrições</h1>
-        <p class="text-muted mb-0">Visualize as inscrições por evento e atividade.</p>
-    </div>
+                                            </td>
+                                            <td>
+                                                {{ date('d/m/Y', strtotime($inscricao->data_inscricao)) }}
 
-    @forelse($eventos as $evento)
-
-        <div class="card shadow-sm rounded-4 border-0 p-4 mb-4">
-
-            <div class="mb-4">
-                <h3 class="fw-bold mb-1">
-                    {{ $evento->nome }}
-                    <span class="text-muted fs-6">
-                        ({{ $evento->sigla }})
-                    </span>
-                </h3>
-
-                <p class="text-muted mb-0">
-                    {{ date('d/m/Y', strtotime($evento->data_inicio)) }}
-                    até
-                    {{ date('d/m/Y', strtotime($evento->data_fim)) }}
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="3" class="texto-centro">
+                                                <p>
+                                                    Nenhuma inscrição nesta atividade.
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                @empty
+                    <div class="mensagem-vazia">
+                        <p>
+                            Nenhuma atividade cadastrada neste evento.
+                        </p>
+                    </div>
+                @endforelse
+            </div>
+        @empty
+            <div class="mensagem-vazia">
+                <p>
+                    Nenhum evento encontrado.
                 </p>
             </div>
-
-            @forelse($evento->atividades as $atividade)
-
-                <div class="mb-4">
-                    <h5 class="fw-semibold mb-3">
-                        {{ $atividade->titulo }}
-                    </h5>
-
-                    <div class="table-responsive">
-                        <table class="table align-middle">
-                            <thead>
-                                <tr>
-                                    <th>Aluno</th>
-                                    <th>Email</th>
-                                    <th>Data da Inscrição</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                @forelse($atividade->inscricoes as $inscricao)
-                                    <tr>
-                                        <td>{{ $inscricao->usuario->nome }}</td>
-
-                                        <td>{{ $inscricao->usuario->email }}</td>
-
-                                        <td>
-                                            {{ date('d/m/Y', strtotime($inscricao->data_inscricao)) }}
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="3" class="text-center text-muted py-4">
-                                            Nenhuma inscrição nesta atividade.
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-            @empty
-                <p class="text-center text-muted py-3 mb-0">
-                    Nenhuma atividade cadastrada.
-                </p>
-            @endforelse
-
-        </div>
-
-    @empty
-        <div class="card shadow-sm rounded-4 border-0 p-4">
-            <p class="text-center text-muted mb-0">
-                Nenhum evento encontrado.
-            </p>
-        </div>
-    @endforelse
-
-</div>
+        @endforelse
+    </div>
 @endsection

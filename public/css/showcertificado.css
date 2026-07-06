@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=SN+Pro:wght@200..900&display=swap');
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --verde-principal: #1DD73C;
+    --verde-escuro: #16b830;
+    --amarelo: #facc15;
+    --amarelo-fundo: #fef9c3;
+    --vermelho: #F02719;
+    --cor-borda: #cbe0da;
+    --azul-claro: #4BB3FD;
+    --azul-principal: #027BCE;
+    --azul-escuro: #00487C;
+    --azul-mais-escuro: #00243D;
+    --texto: #1F271B;
+    --texto-secundario: #64748b;
+}
+
+.cartao-lista {
+    background: #fff;
+    border: 1px solid var(--cor-borda);
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 36, 61, .06);
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+.cartao-lista::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: linear-gradient(to bottom,
+            var(--azul-mais-escuro),
+            var(--azul-principal),
+            var(--azul-claro));
+}
+
+.cabecalho-lista {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--cor-borda);
+}
+
+.titulo-pagina {
+    font-family: 'SN Pro', sans-serif;
+    font-size: 28px;
+    color: var(--azul-mais-escuro);
+    margin-bottom: 6px;
+}
+
+.subtitulo-pagina {
+    font-family: 'Inter', sans-serif;
+    color: var(--texto-secundario);
+    font-size: 14px;
+}
+
+.botao-secundario {
+    padding: 10px 20px;
+    border: 1.5px solid var(--cor-borda);
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--azul-escuro);
+    font-family: 'SN Pro';
+    font-weight: 600;
+    transition: .2s;
+}
+
+.botao-secundario:hover {
+    border-color: var(--azul-principal);
+    background: rgba(75, 179, 253, .08);
+}
+
+.alerta-sucesso {
+    background: rgba(29, 215, 60, .10);
+    border-left: 4px solid var(--verde-principal);
+    color: var(--verde-escuro);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    font-family: 'Inter';
+}
+
+.subcabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--azul-principal);
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px 8px 0 0;
+}
+
+.subcabecalho h2 {
+    font-family: 'SN Pro';
+    font-size: 18px;
+}
+
+.contador {
+    background: #fff;
+    color: var(--azul-principal);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-family: 'Inter';
+}
+
+.tabela-responsiva {
+    overflow: hidden;
+    overflow-x: auto;
+
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+}
+
+.tabela-estilizada {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Inter';
+}
+
+.tabela-estilizada thead th {
+    background: var(--azul-mais-escuro);
+    color: #fff;
+    padding: 14px 16px;
+    text-align: left;
+}
+
+.tabela-estilizada tbody td {
+    padding: 15px;
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.tabela-estilizada tbody tr:nth-child(even) {
+    background: rgba(203, 224, 218, .15);
+}
+
+.tabela-estilizada tbody tr:hover {
+    background: rgba(75, 179, 253, .05);
+}
+
+.coluna-status {
+    width: 180px;
+    text-align: center;
+}
+
+.coluna-acoes {
+    width: 220px;
+}
+
+.grupo-botoes {
+    display: flex;
+    justify-content: center;
+}
+
+.badge-sucesso {
+    background: rgba(29, 215, 60, .15);
+    color: var(--verde-escuro);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.badge-pendente {
+    background: var(--amarelo-fundo);
+    color: #a16207;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+.botao-principal-tabela,
+.botao-secundario-tabela {
+
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-size: 13px;
+    font-weight: 600;
+    transition: .2s;
+}
+
+.botao-principal-tabela {
+
+    background: var(--azul-principal);
+    color: #fff;
+}
+
+.botao-principal-tabela:hover {
+
+    background: var(--azul-escuro);
+}
+
+.botao-secundario-tabela {
+
+    border: 1.5px solid var(--azul-principal);
+    color: var(--azul-principal);
+    background: #fff;
+}
+
+.botao-secundario-tabela:hover {
+
+    background: var(--azul-principal);
+    color: #fff;
+}
