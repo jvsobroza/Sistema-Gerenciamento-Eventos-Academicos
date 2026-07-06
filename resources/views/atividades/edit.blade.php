@@ -118,8 +118,8 @@
                             Oficina
                         </option>
 
-                        <option value="RODA_DE_REGRESSOS" {{ $atividade->tipo == 'RODA_DE_REGRESSOS' ? 'selected' : '' }}>
-                            Roda de Regressos
+                        <option value="RODA_DE_EGRESSOS" {{ $atividade->tipo == 'RODA_DE_EGRESSOS' ? 'selected' : '' }}>
+                            Roda de Egressos
                         </option>
 
                         <option value="MINI_CURSO" {{ $atividade->tipo == 'MINI_CURSO' ? 'selected' : '' }}>
