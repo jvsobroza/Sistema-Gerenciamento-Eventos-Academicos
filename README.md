@@ -82,10 +82,10 @@ php artisan key:generate
 
 ---
 
-### 6. Executar as migrations
+### 6. Executar as migrations e seeders
 
 ```bash
-php artisan migrate:fresh
+php artisan migrate:fresh --seed
 ```
 
 ---
@@ -109,6 +109,15 @@ Acesse:
 ```text
 http://127.0.0.1:8000
 ```
+---
+
+## 🔐 Usuário Padrão
+
+Após executar os seeders:
+
+Email: admin@gmail.com
+
+Senha: admin123
 
 ---
 
