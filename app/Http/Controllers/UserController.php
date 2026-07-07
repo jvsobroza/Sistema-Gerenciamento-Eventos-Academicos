@@ -45,13 +45,10 @@ class UserController extends Controller
             })
             ->orderBy('data_inicio')
             ->get();
-        $proximosEventos = Evento::with('atividades')
-            ->whereDate('data_fim', '>=', today())
-            ->whereDoesntHave('atividades.inscricoes', function ($query) use ($userId) {
-                $query->where('id_usuario', $userId);
-            })
-            ->orderBy('data_inicio')
-            ->get();
+       $proximosEventos = Evento::with('atividades.inscricoes')
+        ->whereDate('data_fim', '>=', today())
+        ->orderBy('data_inicio')
+        ->get();
         $alunoAtividadesCount = Inscricao::where('id_usuario', $userId)->count();
         $alunoCertificadosCount = Certificado::where('id_usuario', $userId)->count();
         $alunoEventosCount = $eventosInscritos->count(); // Usa direto o count da coleção acima
