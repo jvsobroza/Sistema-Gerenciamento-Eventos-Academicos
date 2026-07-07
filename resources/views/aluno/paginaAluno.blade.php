@@ -254,12 +254,17 @@
 
                                         @if(auth()->user()->tipo == 2)
                                             <td data-label="Ação" class="coluna-acao">
-                                                @if($atividade->vagas > 0)
+                                               @php
+                                                    $inscrito = $atividade->inscricoes->contains('id_usuario', auth()->id());
+                                                @endphp
+                                                
+                                                @if($inscrito)
+                                                    <span class="item-badge">Já inscrito</span>
+                                                @elseif($atividade->vagas > 0)
                                                     <form action="{{ route('inscricao.store') }}" method="POST">
                                                         @csrf
                                                         <input type="hidden" name="id_atividade" value="{{ $atividade->id }}">
-                                                        <button type="submit" class="botao-inscrever"
-                                                            style="cursor: pointer; border: none;">
+                                                        <button type="submit" class="botao-inscrever">
                                                             Inscrever-se
                                                         </button>
                                                     </form>
