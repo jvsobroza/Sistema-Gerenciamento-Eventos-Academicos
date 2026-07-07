@@ -1,66 +1,290 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📚 Sistema de Gerenciamento de Eventos Acadêmicos
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistema web desenvolvido para **gerenciamento de eventos acadêmicos**, permitindo o cadastro e organização de eventos, participantes, inscrições e demais informações relacionadas às atividades acadêmicas.
 
-## About Laravel
+⚠️ **Nota:** O arquivo `.env` está presente neste repositório apenas por se tratar de um projeto de estudo, facilitando a avaliação. Em projetos reais, esse arquivo não deve ser enviado ao GitHub e deve ser incluído no `.gitignore`.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+# 🎯 Objetivo
 
-## Learning Laravel
+O objetivo deste projeto é facilitar o gerenciamento de eventos acadêmicos, centralizando informações de participantes, inscrições e organização dos eventos em uma única plataforma.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+# 🚀 Tecnologias utilizadas
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Laravel (Framework PHP)
+- Bootstrap (Estilização da interface)
+- MySQL (Banco de dados)
+- PHP
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+# 📌 Funcionalidades
 
-### Premium Partners
+- 📅 Cadastro de eventos acadêmicos
+- 👥 Cadastro de participantes
+- 📝 Gerenciamento de inscrições
+- 🏫 Cadastro de organizadores
+- 📍 Cadastro de locais dos eventos
+- 📆 Controle de datas e horários
+- 📂 Organização dos eventos cadastrados
+- 🔎 Consulta e gerenciamento das inscrições
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+---
 
-## Contributing
+# 🚀 Como Executar o Projeto
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 1. Clonar o repositório
 
-## Code of Conduct
+```bash
+git clone https://github.com/jvsobroza/Sistema-Gerenciamento-Eventos-Academicos.git
+cd Sistema-Gerenciamento-Eventos-Academicos
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+### 2. Instalar as dependências
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+composer install
+```
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 3. Criar o arquivo de ambiente
+
+```bash
+cp .env.example .env
+```
+
+---
+
+### 4. Configurar o banco de dados
+
+Edite o arquivo `.env`:
+
+```env
+DB_DATABASE=nome_do_banco
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+---
+
+### 5. Gerar a chave da aplicação
+
+```bash
+php artisan key:generate
+```
+
+---
+
+### 6. Executar as migrations
+
+```bash
+php artisan migrate:fresh
+```
+
+---
+
+### 7. Criar o link simbólico do storage
+
+```bash
+php artisan storage:link
+```
+
+---
+
+### 8. Iniciar o servidor
+
+```bash
+php artisan serve
+```
+
+Acesse:
+
+```text
+http://127.0.0.1:8000
+```
+
+---
+
+# 🔐 Configuração do Login com Google
+
+Este projeto utiliza autenticação com contas Google através do OAuth 2.0.
+
+## 1. Acesse o Google Cloud Console
+
+https://console.cloud.google.com/
+
+---
+
+## 2. Crie um projeto
+
+- Clique em **Selecionar projeto**.
+- Clique em **Novo Projeto**.
+- Escolha um nome para o projeto.
+- Clique em **Criar**.
+
+---
+
+## 3. Ative a API
+
+No menu lateral:
+
+**APIs e Serviços → Biblioteca**
+
+Pesquise por:
+
+- Google Identity
+- Google People API (caso utilizada pelo projeto)
+
+Clique em **Ativar**.
+
+---
+
+## 4. Configure a Tela de Consentimento OAuth
+
+Em:
+
+**APIs e Serviços → Tela de consentimento OAuth**
+
+- Escolha **Externo**
+- Informe:
+  - Nome da aplicação
+  - E-mail de suporte
+  - E-mail do desenvolvedor
+
+Salve as alterações.
+
+---
+
+## 5. Criar as credenciais
+
+Vá em:
+
+**APIs e Serviços → Credenciais**
+
+Clique em:
+
+**Criar credenciais → ID do cliente OAuth**
+
+Tipo da aplicação:
+
+**Aplicativo Web**
+
+---
+
+## 6. Adicione as URIs
+
+### Origens JavaScript autorizadas
+
+```
+http://127.0.0.1:8000
+```
+
+ou
+
+```
+http://localhost:8000
+```
+
+### URIs de redirecionamento autorizadas
+
+```
+http://127.0.0.1:8000/auth/google/callback
+```
+
+ou
+
+```
+http://localhost:8000/auth/google/callback
+```
+
+> Caso o projeto utilize outra rota de callback, substitua pelo endereço correto definido nas rotas do Laravel.
+
+---
+
+## 7. Copie as credenciais
+
+Após criar o OAuth Client, o Google fornecerá:
+
+- Client ID
+- Client Secret
+
+---
+
+## 8. Configure o arquivo .env
+
+Substitua pelos dados da sua aplicação:
+
+```env
+GOOGLE_CLIENT_ID=SEU_CLIENT_ID
+GOOGLE_CLIENT_SECRET=SEU_CLIENT_SECRET
+GOOGLE_REDIRECT_URI=http://127.0.0.1:8000/auth/google/callback
+```
+
+---
+
+## 9. Configuração do APP_URL
+
+O parâmetro `APP_URL` define a URL base da aplicação. Ele deve corresponder ao endereço utilizado para acessar o sistema.
+
+Durante o desenvolvimento local, utilize:
+
+```env
+APP_URL=http://127.0.0.1:8000
+```
+
+ou
+
+```env
+APP_URL=http://localhost:8000
+```
+
+> **Importante:** Caso utilize uma URL diferente, altere o valor de `APP_URL` para refletir o endereço correto da aplicação.
+
+Exemplo:
+
+```env
+APP_URL=http://meu-endereco:8000
+```
+
+Além disso, se o projeto utilizar autenticação com Google, o valor de `APP_URL` deve ser compatível com a variável `GOOGLE_REDIRECT_URI`.
+
+Exemplo:
+
+```env
+APP_URL=http://127.0.0.1:8000
+
+GOOGLE_CLIENT_ID=SEU_CLIENT_ID
+GOOGLE_CLIENT_SECRET=SEU_CLIENT_SECRET
+GOOGLE_REDIRECT_URI=http://127.0.0.1:8000/auth/google/callback
+```
+
+Após alterar o arquivo `.env`, execute os seguintes comandos para atualizar as configurações da aplicação:
+
+```bash
+php artisan config:clear
+php artisan cache:clear
+php artisan config:cache
+```
+
+Caso a aplicação seja publicada em um servidor, lembre-se de atualizar tanto o `APP_URL` quanto o `GOOGLE_REDIRECT_URI` para o domínio utilizado e registrar a mesma URI de redirecionamento nas credenciais OAuth do Google.
+
+---
+
+## 11. Inicie o projeto
+
+```bash
+php artisan serve
+```
+
+Agora será possível realizar login utilizando uma conta Google.
+
+# 👨‍💻 Autores
+
+**Vinícios Weide Ebling** - vinicioswe2005@gmail.com
